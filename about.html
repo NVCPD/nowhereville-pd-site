@@ -3,29 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About NVCPD</title>
+  <title>Nowhereville County Police Department</title>
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: Georgia, serif;
       background-color: #f4f4f4;
-      color: #000;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
     }
     header {
       background-color: #00274d;
-      color: #fff;
+      color: white;
       padding: 20px;
       text-align: center;
     }
     nav {
       background-color: #003366;
-      padding: 10px;
+      padding: 12px;
       display: flex;
       justify-content: center;
       gap: 20px;
     }
     nav a {
-      color: #fff;
+      color: white;
       text-decoration: none;
       font-weight: bold;
     }
@@ -33,21 +38,25 @@
       text-decoration: underline;
     }
     .content {
-      padding: 20px;
+      flex: 1;
+      padding: 30px;
       max-width: 1000px;
-      margin: auto;
-      background-color: white;
+      margin: 0 auto;
+      background: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    section {
-      margin-bottom: 25px;
-    }
-    h1, h2, h3 {
+    h1, h2 {
       color: #00274d;
+    }
+    .announcement {
+      background-color: #e7f0ff;
+      border-left: 6px solid #003366;
+      padding: 15px;
+      margin: 20px 0;
     }
     footer {
       text-align: center;
-      padding: 10px;
+      padding: 15px;
       background-color: #00274d;
       color: white;
       font-size: 14px;
@@ -56,43 +65,43 @@
 </head>
 <body>
   <header>
-    <h1>About the NVCPD</h1>
-    <p>Protecting Nowhereville with Dedication and Integrity</p>
+    <h1>Nowhereville County Police Department</h1>
+    <p>Serving and Protecting the Citizens of Nowhereville, USA</p>
   </header>
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About NVCPD</a>
     <a href="roster.html">Officer Roster</a>
-    <a href="cases.html">Case Files</a>
-    <a href="codes.html">10-Codes</a>
-    <a href="join.html">Careers</a>
+    <a href="#">Case Files</a>
+    <a href="#">10-Codes</a>
+    <a href="#">Join</a>
   </nav>
   <div class="content">
-    <section>
-      <h2>Who We Are</h2>
-      <p>
-        The Nowhereville County Police Department (NVCPD) is the official law enforcement agency for the town
-        of Nowhereville, USA. we work to ensure peace, structure and love within our commuinity.
-      </p>
-    </section>
-    <section>
-      <h2>Our Divisions</h2>
-      <ul>
-        <li>High Command</li>
-        <li>BDU/SWAT</li>
-        <li>Plot Safety Unit</li>
-        <li>Patrol Division</li>
-      </ul>
-    </section>
-    <section>
-      <h2>RP Law & Order</h2>
-      <p>
-        Placeholder
-      </p>
-    </section>
+    <h2>Welcome to NVCPD</h2>
+    <p>
+      The Nowhereville County Police Department (NVCPD) stands as the official law enforcement agency of Nowhereville, USA. We are committed to safeguarding lives, property, and public order while fostering transparency and community trust.
+    </p>
+
+    <div class="announcement">
+      <strong>🚨 Latest Update (May 2025):</strong><br>
+      New patrol applications are open! We are seeking motivated officers to join our growing force. Visit the <a href="#">Careers</a> page to get started.
+    </div>
+
+    <h2>Our Role in the Community</h2>
+    <p>
+      NVCPD performs critical responsibilities including public safety enforcement, tactical support, crime investigations, traffic monitoring, and emergency response. Whether it's in patrol units or in high command operations, every officer upholds our motto: <em>"Honor, Duty, Respect."</em>
+    </p>
+
+    <h2>Explore Our Services</h2>
+    <ul>
+      <li>📋 View the active <a href="roster.html">Officer Roster</a></li>
+      <li>📁 Check recent <a href="#">Case Files</a></li>
+      <li>🔢 Learn official <a href="#">10-Codes</a></li>
+      <li>📝 Apply to become a cadet <a href="#">here</a></li>
+    </ul>
   </div>
   <footer>
-    &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 </body>
 </html>
