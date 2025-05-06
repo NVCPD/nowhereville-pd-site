@@ -5,63 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nowhereville County Police Department</title>
   <style>
-    body {
+    html, body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      padding: 0;
+      height: 100%;
+      font-family: Georgia, serif;
       background-color: #f4f4f4;
-      color: #000;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
     }
     header {
       background-color: #00274d;
-      color: #fff;
+      color: white;
       padding: 20px;
       text-align: center;
     }
     nav {
       background-color: #003366;
-      padding: 10px;
+      padding: 12px;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
       gap: 20px;
     }
     nav a {
-      color: #fff;
+      color: white;
       text-decoration: none;
       font-weight: bold;
-      font-size: 16px;
     }
     nav a:hover {
       text-decoration: underline;
     }
     .content {
+      flex: 1;
       padding: 30px;
-      max-width: 1100px;
-      margin: auto;
-      background-color: white;
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     h1, h2 {
       color: #00274d;
     }
-    .section {
-      margin-bottom: 40px;
-    }
-    .image-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: space-around;
-    }
-    .image-row img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    .announcement {
+      background-color: #e7f0ff;
+      border-left: 6px solid #003366;
+      padding: 15px;
+      margin: 20px 0;
     }
     footer {
       text-align: center;
-      padding: 20px;
+      padding: 15px;
       background-color: #00274d;
       color: white;
       font-size: 14px;
@@ -79,36 +74,34 @@
     <a href="roster.html">Officer Roster</a>
     <a href="#">Case Files</a>
     <a href="#">10-Codes</a>
-    <a href="#">Join the Force</a>
+    <a href="#">Join</a>
   </nav>
   <div class="content">
-    <div class="section">
-      <h2>Welcome to the Nowhereville Police Department</h2>
-      <p>
-        The Nowhereville County Police Department (NVCPD) is committed to safeguarding our virtual community
-        through integrity, professionalism, and excellence in service. Our department operates under a strict code
-        of ethics and is composed of elite, well-trained officers dedicated to maintaining peace in No-where Ville, USA.
-      </p>
+    <h2>Welcome to NVCPD</h2>
+    <p>
+      The Nowhereville County Police Department (NVCPD) stands as the official law enforcement agency of Nowhereville, USA. We are committed to safeguarding lives, property, and public order while fostering transparency and community trust.
+    </p>
+
+    <div class="announcement">
+      <strong>🚨 Latest Update (May 2025):</strong><br>
+      New patrol applications are open! We are seeking motivated officers to join our growing force. Visit the <a href="#">Careers</a> page to get started.
     </div>
-    <div class="section">
-      <h2>Latest Updates & Highlights</h2>
-      <ul>
-        <li>New cadet training cycle starts this weekend.</li>
-        <li>Department-wide vehicle upgrades in progress.</li>
-        <li>Public safety tips for community members now available.</li>
-      </ul>
-    </div>
-    <div class="section">
-      <h2>Gallery</h2>
-      <div class="image-row">
-        <img src="https://i.imgur.com/DVKdOO2.png" alt="Patrol Car" width="250">
-        <img src="https://i.imgur.com/DVKdOO2.png" alt="Police HQ" width="250">
-        <img src="https://i.imgur.com/DVKdOO2.png" alt="Training Exercise" width="250">
-      </div>
-    </div>
+
+    <h2>Our Role in the Community</h2>
+    <p>
+      NVCPD performs critical responsibilities including public safety enforcement, tactical support, crime investigations, traffic monitoring, and emergency response. Whether it's in patrol units or in high command operations, every officer upholds our motto: <em>"Honor, Duty, Respect."</em>
+    </p>
+
+    <h2>Explore Our Services</h2>
+    <ul>
+      <li>📋 View the active <a href="roster.html">Officer Roster</a></li>
+      <li>📁 Check recent <a href="#">Case Files</a></li>
+      <li>🔢 Learn official <a href="#">10-Codes</a></li>
+      <li>📝 Apply to become a cadet <a href="#">here</a></li>
+    </ul>
   </div>
   <footer>
-    &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 </body>
 </html>
