@@ -10,6 +10,9 @@
       font-family: Georgia, serif;
       background-color: #f4f4f4;
       color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     header {
       background-color: #00274d;
@@ -32,57 +35,11 @@
     nav a:hover {
       text-decoration: underline;
     }
-    .content {
+    .main-wrapper {
+      display: flex;
+      justify-content: center;
       padding: 20px;
-      max-width: 1000px;
-      margin: auto;
-      background-color: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      flex: 1;
     }
-    h1, h2 {
-      color: #00274d;
-    }
-    footer {
-      position: relative;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
-      padding: 15px;
-      background-color: #00274d;
-      color: white;
-      font-size: 14px;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Nowhereville County Police Department</h1>
-    <p>Serving and Protecting the Citizens of Nowhereville, USA</p>
-  </header>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About NVCPD</a>
-    <a href="roster.html">Officer Roster</a>
-    <a href="#">Case Files</a>
-    <a href="#">10-Codes</a>
-    <a href="#">Careers</a>
-  </nav>
-  <div class="content">
-    <h2>Welcome to the Nowhereville Police Department</h2>
-    <p>
-      The Nowhereville County Police Department (NVCPD) is committed to safeguarding our virtual community
-      through integrity, professionalism, and excellence in service.
-    </p>
-    <p>
-      This official website provides access to officer rosters, reports, radio codes, and recruitment information. 
-      Stay up to date with active patrols, officer promotions, and live dispatch info as we continue serving the people of Nowhereville, USA.
-    </p>
-    <p>
-      Interested in joining the force? Explore career opportunities in our <strong>Careers</strong> section. Whether you're a new recruit or a seasoned officer, we’re always looking for dedicated individuals ready to protect and serve.
-    </p>
-  </div>
-  <footer>
-    &copy; 2025 Nowhereville County Police Department. All rights reserved.
-  </footer>
-</body>
-</html>
+    .side-banner {
+      width: 120px
