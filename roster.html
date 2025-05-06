@@ -1,52 +1,151 @@
-<table>
-  <thead>
-    <tr>
-      <th>Photo</th>
-      <th>Name</th>
-      <th>Rank</th>
-      <th>Badge #</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Officer Roster - Nowhereville County PD</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      background-color: #f4f4f4;
+      margin: 0;
+    }
+    header, footer {
+      background-color: #00274d;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+    nav {
+      background-color: #003366;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+    }
+    h2 {
+      color: #00274d;
+    }
+    .division-header {
+      background-color: #d3d3d3;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      margin-bottom: 30px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: left;
+      font-size: 14px;
+      height: 60px;
+      vertical-align: middle;
+    }
+    td img {
+      max-height: 50px;
+      width: auto;
+      display: block;
+      margin: auto;
+      border-radius: 5px;
+    }
+    th {
+      background-color: #e1e1e1;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Nowhereville Police Department</h1>
+    <p>Serving with Honor</p>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="roster.html">Officer Roster</a>
+    <a href="#">Case Files</a>
+    <a href="#">10-Codes</a>
+    <a href="#">Join</a>
+  </nav>
+  <div class="container">
+    <h2>Officer Roster</h2>
 
-    <!-- hicom -->
-    <tr>
-      <td colspan="5" style="background-color: #d0d0d0; font-weight: bold; text-align: center;">High Command</td>
-    </tr>
-    <tr>
-      <td><img src="https://i.imgur.com/SaaPac7.png" alt="Tomorrow" /></td>
-      <td>Tomorrow</td>
-      <td>Commissioner</td>
-      <td>0001</td>
-      <td>Active</td>
-    </tr>
-    <tr>
-      <td><img src="https://i.imgur.com/do6pVAi.png" alt="Shane" /></td>
-      <td>Shane</td>
-      <td>Chief</td>
-      <td>0002</td>
-      <td>Active</td>
-    </tr>
+    <div class="division-header">High Command</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Rank</th>
+          <th>Badge #</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img src="https://i.imgur.com/DVKdOO2.png" alt="Tomorrow" /></td>
+          <td>Tomorrow</td>
+          <td>Commissioner</td>
+          <td>0001</td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td><img src="https://via.placeholder.com/50" alt="Shane" /></td>
+          <td>Shane</td>
+          <td>Chief</td>
+          <td>0002</td>
+          <td>Active</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <!-- patrol boi boi boi! -->
-    <tr>
-      <td colspan="5" style="background-color: #d0d0d0; font-weight: bold; text-align: center;">Patrol Division</td>
-    </tr>
-    <tr>
-      <td><img src="https://via.placeholder.com/100" alt="Test" /></td>
-      <td>Test</td>
-      <td>Officer</td>
-      <td>0003</td>
-      <td>On Patrol</td>
-    </tr>
-    <tr>
-      <td><img src="https://via.placeholder.com/100" alt="Test" /></td>
-      <td>Test</td>
-      <td>Cadet</td>
-      <td>0004</td>
-      <td>Training</td>
-    </tr>
-
-  </tbody>
-</table>
+    <div class="division-header">Patrol Division</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Rank</th>
+          <th>Badge #</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img src="https://via.placeholder.com/50" alt="Test" /></td>
+          <td>Test</td>
+          <td>Officer</td>
+          <td>0003</td>
+          <td>On Patrol</td>
+        </tr>
+        <tr>
+          <td><img src="https://via.placeholder.com/50" alt="Test" /></td>
+          <td>Test</td>
+          <td>Cadet</td>
+          <td>0004</td>
+          <td>Training</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <footer>
+    &copy; 2025 Nowhereville County Police Department
+  </footer>
+</body>
+</html>
