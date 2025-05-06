@@ -3,149 +3,94 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Officer Roster - Nowhereville County PD</title>
+  <title>About NVCPD - Nowhereville County Police Department</title>
   <style>
     body {
+      margin: 0;
       font-family: Georgia, serif;
       background-color: #f4f4f4;
-      margin: 0;
     }
-    header, footer {
+    header {
       background-color: #00274d;
       color: white;
+      padding: 20px;
       text-align: center;
-      padding: 15px;
     }
     nav {
       background-color: #003366;
-      padding: 10px;
-      text-align: center;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
     nav a {
       color: white;
-      margin: 0 15px;
       text-decoration: none;
       font-weight: bold;
     }
     nav a:hover {
       text-decoration: underline;
     }
-    .container {
-      max-width: 800px;
-      margin: auto;
+    .content {
+      max-width: 1000px;
+      margin: 30px auto;
       background: white;
-      padding: 20px;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h2 {
+    h1, h2 {
       color: #00274d;
     }
-    .division-header {
-      background-color: #d3d3d3;
-      font-weight: bold;
-      text-align: center;
-      padding: 10px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-      margin-bottom: 30px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 6px;
-      text-align: left;
-      font-size: 14px;
-      height: 60px;
-      vertical-align: middle;
-    }
-    td img {
-      max-height: 50px;
-      width: auto;
-      display: block;
-      margin: auto;
+    img {
+      max-width: 100%;
       border-radius: 5px;
+      margin: 20px 0;
     }
-    th {
-      background-color: #e1e1e1;
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #00274d;
+      color: white;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Nowhereville Police Department</h1>
-    <p>Serving with Honor</p>
+    <h1>Nowhereville County Police Department</h1>
+    <p>Serving and Protecting the Citizens of Nowhereville, USA</p>
   </header>
   <nav>
     <a href="index.html">Home</a>
+    <a href="about.html">About NVCPD</a>
     <a href="roster.html">Officer Roster</a>
     <a href="#">Case Files</a>
     <a href="#">10-Codes</a>
     <a href="#">Join</a>
   </nav>
-  <div class="container">
-    <h2>Officer Roster</h2>
+  <div class="content">
+    <h2>About the Department</h2>
+    <p>The Nowhereville County Police Department (NVCPD) is a full-service law enforcement agency committed to maintaining peace and safety across No-where Ville, USA. Established to uphold public order and respond swiftly to threats within the Town, our department is staffed with dedicated officers trained in patrol, investigations, community service, and tactical response.</p>
 
-    <div class="division-header">High Command</div>
-    <table>
-      <thead>
-        <tr>
-          <th>Photo</th>
-          <th>Name</th>
-          <th>Rank</th>
-          <th>Badge #</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><img src="https://i.imgur.com/DVKdOO2.png" alt="Tomorrow" /></td>
-          <td>Tomorrow</td>
-          <td>Commissioner</td>
-          <td>0001</td>
-          <td>Active</td>
-        </tr>
-        <tr>
-          <td><img src="https://via.placeholder.com/50" alt="Shane" /></td>
-          <td>Shane</td>
-          <td>Chief</td>
-          <td>0002</td>
-          <td>Active</td>
-        </tr>
-      </tbody>
-    </table>
+    <img src="https://i.imgur.com/OB0yJX9.jpg" alt="NVCPD Vehicle">
 
-    <div class="division-header">Patrol Division</div>
-    <table>
-      <thead>
-        <tr>
-          <th>Photo</th>
-          <th>Name</th>
-          <th>Rank</th>
-          <th>Badge #</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><img src="https://via.placeholder.com/50" alt="Test" /></td>
-          <td>Test</td>
-          <td>Officer</td>
-          <td>0003</td>
-          <td>On Patrol</td>
-        </tr>
-        <tr>
-          <td><img src="https://via.placeholder.com/50" alt="Test" /></td>
-          <td>Test</td>
-          <td>Cadet</td>
-          <td>0004</td>
-          <td>Training</td>
-        </tr>
-      </tbody>
-    </table>
+    <h2>Our Mission</h2>
+    <p>Our mission is to serve with honor, protect with courage, and build trust with the community through transparency and professionalism. We take pride in every virtual patrol, operation, and community initiative carried out in Nowhereville.</p>
+
+    <h2>Divisions</h2>
+    <ul>
+      <li><strong>High Command</strong> – Maintains visible police presence, responds to calls, and keeps the peace.</li>
+      <li><strong>BDU/CIRG</strong> – Equipped, and deployed to resolve "high-risk situations".</li>
+      <li><strong>Plot Safety Unit</strong> – Secures the station/plot incase of any emergencies, deals with raiders..</li>
+      <li><strong>Patrol Divsion</strong> – Maintains visible police presence, responds to calls, and keeps the peace.</li>
+      <li><strong>Training & Cadet Development</strong> – Guides new recruits and maintains officer readiness.</li>
+    </ul>
+
+    <h2>Leadership</h2>
+    <p>NVCPD is led by Commissioner Tomorrow and Chief Shane, who ensure every officer maintains the values of discipline, fairness, and vigilance.</p>
   </div>
   <footer>
-    &copy; 2025 Nowhereville County Police Department
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 </body>
 </html>
