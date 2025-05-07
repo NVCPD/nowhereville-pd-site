@@ -3,87 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Officer Roster - Nowhereville County Police Department</title>
+  <title>Officer Roster - Nowhereville PD</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Georgia, serif;
-      background-color: #f4f4f4;
-      color: #000;
-    }
-    header {
-      background-color: #00274d;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-      position: relative;
-    }
-    header img.logo {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      height: 60px;
-    }
-    nav {
-      background-color: #003366;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .content {
-      padding: 20px;
-      max-width: 1000px;
-      margin: auto;
-      background-color: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #00274d;
-      border-bottom: 2px solid #00274d;
-      padding-bottom: 5px;
-    }
-    .unit {
-      margin-bottom: 30px;
-    }
-    .unit h3 {
-      background-color: #e0e0e0;
-      padding: 10px;
-      border-left: 5px solid #003366;
-    }
-    .unit ul {
-      list-style-type: none;
-      padding-left: 20px;
-    }
-    .unit ul li {
-      margin-bottom: 5px;
-    }
-    footer {
-      text-align: center;
-      padding: 10px;
-      background-color: #00274d;
-      color: white;
-      font-size: 14px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
+    body { font-family: Georgia, serif; background-color: #f4f4f4; margin: 0; }
+    header, footer { background-color: #00274d; color: white; text-align: center; padding: 20px; }
+    nav { background-color: #003366; padding: 10px; text-align: center; }
+    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    .container { max-width: 1200px; margin: auto; background: white; padding: 20px; }
+    h2 { color: #00274d; }
+    .division-header { background-color: #cccccc; padding: 10px; font-weight: bold; margin-top: 25px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; vertical-align: middle; }
+    th { background-color: #e1e1e1; }
+    img.officer-photo { width: 60px; height: 60px; object-fit: cover; border-radius: 5px; }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo-placeholder.png" alt="NVCPD Logo" class="logo">
+    <img src="logo-placeholder.png" alt="NVCPD Logo" style="height: 80px;"><br>
     <h1>Nowhereville County Police Department</h1>
-    <p>Serving and Protecting the Citizens of Nowhereville, USA</p>
+    <p>Serving with Honor</p>
   </header>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About NVCPD</a>
@@ -92,74 +34,107 @@
     <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
   </nav>
-  <div class="content">
+
+  <div class="container">
     <h2>Officer Roster</h2>
 
-    <div class="unit">
-      <h3>High Command</h3>
-      <ul>
-        <li>Chief of Police: John Doe</li>
-        <li>Deputy Chief: Jane Smith</li>
-        <li>Captain: Richard Roe</li>
-      </ul>
-    </div>
+    <div class="division-header">High Command</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Rank</th>
+          <th>Badge #</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img src="https://i.imgur.com/DVKdOO2.png" alt="Tomorrow" class="officer-photo"></td>
+          <td>Tomorrow</td>
+          <td>Commissioner</td>
+          <td>0001</td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
+          <td>Shane</td>
+          <td>Chief</td>
+          <td>0002</td>
+          <td>Active</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <div class="unit">
-      <h3>Cybersecurity Team</h3>
-      <ul>
-        <li>Sergeant: Alice Johnson</li>
-        <li>Detective: Bob Williams</li>
-        <li>Probationary Officer: Charlie Brown</li>
-      </ul>
-    </div>
+    <div class="division-header">Patrol Unit</div>
+    <table>
+      <tbody>
+        <tr>
+          <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
+          <td>J. Morgan</td>
+          <td>Officer</td>
+          <td>0023</td>
+          <td>On Patrol</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <div class="unit">
-      <h3>Critical Incident Response Team (CIRT)</h3>
-      <ul>
-        <li>Team Leader: David Clark</li>
-        <li>Officer: Emily Davis</li>
-        <li>Probationary Officer: Frank Miller</li>
-      </ul>
-    </div>
+    <div class="division-header">Plot Safety & Community Service Unit (PS&CSU)</div>
+    <table>
+      <tbody>
+        <tr>
+          <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
+          <td>Yasmin V.</td>
+          <td>Officer</td>
+          <td>0042</td>
+          <td>Active</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <div class="unit">
-      <h3>Patrol Unit</h3>
-      <ul>
-        <li>Sergeant: Grace Lee</li>
-        <li>Officer: Henry Wilson</li>
-        <li>Probationary Officer: Irene Thomas</li>
-      </ul>
-    </div>
+    <div class="division-header">Critical Incident Response Team (CIRT)</div>
+    <table>
+      <tbody>
+        <tr>
+          <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
+          <td>Rico</td>
+          <td>Sergeant</td>
+          <td>0099</td>
+          <td>Training</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <div class="unit">
-      <h3>Recruitment Unit</h3>
-      <ul>
-        <li>Coordinator: Jack Martinez</li>
-        <li>Officer: Karen Robinson</li>
-        <li>Probationary Officer: Liam Harris</li>
-      </ul>
-    </div>
+    <div class="division-header">Recruitment Unit</div>
+    <table>
+      <tbody>
+        <tr>
+          <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
+          <td>Lucas D.</td>
+          <td>Probationary Officer</td>
+          <td>0150</td>
+          <td>Probation</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <div class="unit">
-      <h3>Plot Safety & Community Service Unit (PS&CSU)</h3>
-      <ul>
-        <li>Supervisor: Maria Gonzalez</li>
-        <li>Officer: Nathan Scott</li>
-        <li>Probationary Officer: Olivia Turner</li>
-      </ul>
-    </div>
-
-    <div class="unit">
-      <h3>Canine Unit (K9)</h3>
-      <ul>
-        <li>Handler: Paul Adams</li>
-        <li>Officer: Quincy Baker</li>
-        <li>Probationary Officer: Rachel Evans</li>
-      </ul>
-    </div>
+    <div class="division-header">Canine Unit (K9)</div>
+    <table>
+      <tbody>
+        <tr>
+          <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
+          <td>Aiden & K9 Rex</td>
+          <td>K9 Handler</td>
+          <td>0172</td>
+          <td>Deployed</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
   <footer>
-    &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 </body>
 </html>
