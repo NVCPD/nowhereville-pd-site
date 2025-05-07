@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Case Files - NVCPD</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Georgia, serif;
+      display: flex;
+      flex-direction: column;
+    }
+   header, footer {
+      background-color: #00274d;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    nav {
+      background-color: #003366;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover { text-decoration: underline; }
+    .container {
+      flex: 1;
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+    }
+    h2 { color: #00274d; }
+    .case {
+      border: 1px solid #ccc;
+      margin: 15px 0;
+      padding: 15px;
+      background-color: #f9f9f9;
+    }
+    .case h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo-placeholder.png" alt="NVCPD Logo" style="height: 80px;"><br>
+    <h1>Nowhereville County Police Department</h1>
+    <p>Official Case Records</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About NVCPD</a>
+    <a href="roster.html">Officer Roster</a>
+    <a href="casefiles.html">Case Files</a>
+    <a href="10codes.html">10-Codes</a>
+    <a href="careers.html">Careers</a>
+  </nav>
+
+  <div class="container">
+    <h2>Case Files</h2>
+
+    <div class="case">
+      <h3>Case #001 - Vandalism at Gas Station</h3>
+      <p><strong>Date:</strong> May 1, 2025</p>
+      <p><strong>Status:</strong> Under Investigation</p>
+      <p><strong>Summary:</strong> Several plots were raided within Nowhereville. Witnesses report suspicious activity near the Gas station. Suspect unidentified.</p>
+    </div>
+
+    <div class="case">
+      <h3>Case #002 - Plot Raid Disruption</h3>
+      <p><strong>Date:</strong> May 2, 2025</p>
+      <p><strong>Status:</strong> Closed</p>
+      <p><strong>Summary:</strong> PS&CSU successfully removed rogue players interrupting a storyline roleplay event. All suspects were detained and logged.</p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
+  </footer>
+</body>
+</html>
