@@ -3,88 +3,163 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Case Files - NVCPD</title>
+  <title>Case Files - Nowhereville PD</title>
+  <script type="module">
+    // Import Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
+      authDomain: "nvcpd-database.firebaseapp.com",
+      databaseURL: "https://nvcpd-database-default-rtdb.firebaseio.com",
+      projectId: "nvcpd-database",
+      storageBucket: "nvcpd-database.appspot.com",
+      messagingSenderId: "111892634044",
+      appId: "1:111892634044:web:c2e811597a59a776a5b3b9",
+      measurementId: "G-ZX6989G8HW"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const userInfo = document.getElementById("userInfo");
+    const editSection = document.getElementById("editSection");
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+        userInfo.textContent = `Logged in as ${user.displayName}`;
+        editSection.style.display = "block";
+      } else {
+        loginBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+        userInfo.textContent = "";
+        editSection.style.display = "none";
+      }
+    });
+
+    window.login = () => signInWithPopup(auth, provider).catch(console.error);
+    window.logout = () => signOut(auth).catch(console.error);
+  </script>
   <style>
-    html, body {
-      height: 100%;
+    body {
       margin: 0;
       font-family: Georgia, serif;
-      display: flex;
-      flex-direction: column;
+      background-color: #f4f4f4;
+      color: #000;
     }
-   header, footer {
+    header {
       background-color: #00274d;
-      color: white;
-      text-align: center;
+      color: #fff;
       padding: 20px;
+      text-align: center;
     }
     nav {
       background-color: #003366;
       padding: 10px;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
     }
     nav a {
-      color: white;
-      margin: 0 15px;
+      color: #fff;
       text-decoration: none;
       font-weight: bold;
     }
-    nav a:hover { text-decoration: underline; }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .auth-buttons button {
+      background-color: #0077cc;
+      border: none;
+      padding: 6px 12px;
+      color: white;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .auth-buttons button:hover {
+      background-color: #005fa3;
+    }
     .container {
-      flex: 1;
+      padding: 20px;
       max-width: 1000px;
       margin: auto;
-      background: white;
-      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h2 { color: #00274d; }
-    .case {
-      border: 1px solid #ccc;
-      margin: 15px 0;
+    h2 {
+      color: #00274d;
+    }
+    .casefile {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+    footer {
+      background-color: #00274d;
+      color: white;
+      text-align: center;
       padding: 15px;
-      background-color: #f9f9f9;
-    }
-    .case h3 {
-      margin-top: 0;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo-placeholder.png" alt="NVCPD Logo" style="height: 80px;"><br>
     <h1>Nowhereville County Police Department</h1>
-    <p>Official Case Records</p>
+    <p>Serving and Protecting the Citizens of Nowhereville</p>
   </header>
 
   <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About NVCPD</a>
-    <a href="roster.html">Officer Roster</a>
-    <a href="casefiles.html">Case Files</a>
-    <a href="10codes.html">10-Codes</a>
-    <a href="careers.html">Careers</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About NVCPD</a>
+      <a href="roster.html">Officer Roster</a>
+      <a href="casefiles.html">Case Files</a>
+      <a href="10codes.html">10-Codes</a>
+      <a href="careers.html">Careers</a>
+    </div>
+    <div class="auth-buttons">
+      <span id="userInfo"></span>
+      <button id="loginBtn" onclick="login()">Login</button>
+      <button id="logoutBtn" onclick="logout()" style="display: none;">Logout</button>
+    </div>
   </nav>
 
   <div class="container">
     <h2>Case Files</h2>
-
-    <div class="case">
-      <h3>Case #001 - Vandalism at Gas Station</h3>
-      <p><strong>Date:</strong> May 1, 2025</p>
-      <p><strong>Status:</strong> Under Investigation</p>
-      <p><strong>Summary:</strong> Several plots were raided within Nowhereville. Witnesses report suspicious activity near the Gas station. Suspect unidentified.</p>
+    <div id="caseList">
+      <!-- Placeholder for case file display -->
+      <div class="casefile"><strong>Case #0001</strong>: Stolen Vehicle - Under Investigation</div>
+      <div class="casefile"><strong>Case #0002</strong>: Robbery at Nowhere Mall - Closed</div>
     </div>
 
-    <div class="case">
-      <h3>Case #002 - Plot Raid Disruption</h3>
-      <p><strong>Date:</strong> May 2, 2025</p>
-      <p><strong>Status:</strong> Closed</p>
-      <p><strong>Summary:</strong> PS&CSU successfully removed rogue players interrupting a storyline roleplay event. All suspects were detained and logged.</p>
+    <div id="editSection" style="display:none;">
+      <h3>Add New Case File</h3>
+      <form id="newCaseForm">
+        <input type="text" placeholder="Case Title" required><br><br>
+        <textarea placeholder="Case Description" rows="4" required></textarea><br><br>
+        <button type="submit">Submit Case File</button>
+      </form>
     </div>
   </div>
 
   <footer>
-    &copy; 2025 Nowhereville County Police Department. All rights reserved.
+    &copy; 2025 Nowhereville County Police Department. All rights reserved. | Contact us at <a href="mailto:nvcpd.pr@gmail.com" style="color: #66ccff;">nvcpd.pr@gmail.com</a> |
+    <a href="https://discord.gg/n7nrKGqx8g" target="_blank" style="color: #66ccff;">Join our Discord</a>
   </footer>
 </body>
 </html>
