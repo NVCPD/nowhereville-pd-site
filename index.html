@@ -3,86 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nowhereville County Police Department</title>
+  <title>Nowhereville Police Department</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Georgia, serif;
-      background-color: #f4f4f4;
-      color: #000;
-    }
-    header {
-      background-color: #00274d;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-      position: relative;
-    }
-    header img.logo {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      height: 60px;
-    }
-    nav {
-      background-color: #003366;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .content {
-      padding: 20px;
-      max-width: 1000px;
-      margin: auto;
-      background-color: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1, h2 {
-      color: #00274d;
-    }
-    .contact-box {
-      background: #e9f1ff;
-      border-left: 5px solid #003366;
-      padding: 10px 15px;
-      margin-top: 20px;
-    }
-    .side-banner {
-      height: 300px;
-      width: 100%;
-      margin: 20px 0;
-      background-color: #ddd;
-      text-align: center;
-      line-height: 300px;
-      color: #666;
-      font-style: italic;
-    }
-    footer {
-      text-align: center;
-      padding: 10px;
-      background-color: #00274d;
-      color: white;
-      font-size: 14px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
+    body { font-family: Georgia, serif; background-color: #f4f4f4; margin: 0; }
+    header, footer { background-color: #00274d; color: white; text-align: center; padding: 20px; }
+    nav { background-color: #003366; padding: 10px; text-align: center; }
+    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    .container { max-width: 1200px; margin: auto; background: white; padding: 20px; display: flex; flex-direction: column; }
+    .banner { display: flex; justify-content: space-between; gap: 20px; }
+    .left-banner, .right-banner { width: 150px; background: #eaeaea; min-height: 300px; }
+    .main-content { flex-grow: 1; padding: 20px; }
+    .contact { margin-top: 30px; padding: 15px; background-color: #eaeaea; }
+    h2 { color: #00274d; }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo-placeholder.png" alt="NVCPD Logo" class="logo">
+    <img src="logo-placeholder.png" alt="NVCPD Logo" style="height: 80px;"><br>
     <h1>Nowhereville County Police Department</h1>
     <p>Serving and Protecting the Citizens of Nowhereville, USA</p>
   </header>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About NVCPD</a>
@@ -91,26 +33,35 @@
     <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
   </nav>
-  <div class="content">
-    <h2>Welcome to the Nowhereville Police Department</h2>
-    <p>
-      The Nowhereville County Police Department (NVCPD) proudly protects our city with honor, discipline, and professionalism.
-      We are dedicated to ensuring safety across the region through law enforcement, public outreach, and swift response.
-    </p>
-    <div class="side-banner">[IMAGE BANNER SPACE]</div>
-    <h3>Our Mission</h3>
-    <p>
-      To serve and protect the people of Nowhereville by enforcing the law, maintaining order, and providing essential services
-      to uphold public safety and build trust.
-    </p>
-    <div class="contact-box">
-      <strong>Contact Us:</strong><br>
-      📧 Email: <a href="mailto:nvcpd.pr@gmail.com">nvcpd.pr@gmail.com</a><br>
-      💬 Discord: <a href="https://discord.gg/n7nrKGqx8g" target="_blank">Join our Discord Server</a>
+
+  <div class="container">
+    <div class="banner">
+      <div class="left-banner">[Banner Image]</div>
+      <div class="main-content">
+        <h2>Welcome to the NVCPD</h2>
+        <p>The Nowhereville County Police Department (NVCPD) proudly serves and protects the community of No-where Ville, USA.</p>
+        <p>We are committed to safety, justice, and community service through multiple specialized divisions, including:</p>
+        <ul>
+          <li>Cybersecurity Team</li>
+          <li>Critical Incident Response Team (CIRT)</li>
+          <li>Patrol Unit</li>
+          <li>Recruitment Unit</li>
+          <li>Plot Safety & Community Service Unit (PS&CSU)</li>
+          <li>Canine Unit (K9)</li>
+        </ul>
+
+        <div class="contact">
+          <h3>Contact Us</h3>
+          <p>Email: <a href="mailto:nvcpd.pr@gmail.com">nvcpd.pr@gmail.com</a></p>
+          <p>Discord: <a href="https://discord.gg/n7nrKGqx8g" target="_blank">Join our Discord</a></p>
+        </div>
+      </div>
+      <div class="right-banner">[Banner Image]</div>
     </div>
   </div>
+
   <footer>
-    &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 </body>
 </html>
