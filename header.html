@@ -1,21 +1,22 @@
-<!-- login thing -->
-<header>
+<!-- header replacementr -->
+<header style="background-color: #00274d; color: white; padding: 20px; text-align: center;">
   <h1>Nowhereville County Police Department</h1>
   <p>Serving and Protecting the Citizens of Nowhereville</p>
 </header>
-<nav>
-  <a href="index.html">Home</a>
-  <a href="about.html">About NVCPD</a>
-  <a href="roster.html">Officer Roster</a>
-  <a href="casefiles.html">Case Files</a>
-  <a href="codes.html">10-Codes</a>
-  <a href="careers.html">Careers</a>
-  <button id="loginBtn">Login</button>
+
+<nav style="background-color: #003366; padding: 10px; display: flex; justify-content: center; gap: 15px;">
+  <a href="index.html" style="color: white; text-decoration: none; font-weight: bold;">Home</a>
+  <a href="about.html" style="color: white; text-decoration: none; font-weight: bold;">About NVCPD</a>
+  <a href="roster.html" style="color: white; text-decoration: none; font-weight: bold;">Officer Roster</a>
+  <a href="casefiles.html" style="color: white; text-decoration: none; font-weight: bold;">Case Files</a>
+  <a href="codes.html" style="color: white; text-decoration: none; font-weight: bold;">10-Codes</a>
+  <a href="careers.html" style="color: white; text-decoration: none; font-weight: bold;">Careers</a>
+  <button id="loginBtn" style="background: #0066cc; color: white; border: none; padding: 5px 10px; cursor: pointer;">Login</button>
 </nav>
 
-<!-- modal for it -->
+<!-- modal -->
 <div id="loginModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%);
-background:#fff; padding:20px; border:2px solid #003366; z-index:1000;">
+background:white; padding:20px; border:2px solid #003366; z-index:1000;">
   <h3>Login</h3>
   <input type="email" id="email" placeholder="Email"><br><br>
   <input type="password" id="password" placeholder="Password"><br><br>
