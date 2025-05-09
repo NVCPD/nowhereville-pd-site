@@ -4,100 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nowhereville County Police Department</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Georgia, serif;
-      background-color: #f4f4f4;
-      color: #000;
-    }
-    .content {
-      padding: 20px;
-      max-width: 1000px;
-      margin: auto;
-      background-color: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1, h2 {
-      color: #00274d;
-    }
-    footer {
-      position: relative;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
-      padding: 10px;
-      background-color: #00274d;
-      color: white;
-      font-size: 14px;
-      margin-top: 50px;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="firebase-config.js"></script>
+  <script defer src="auth.js"></script>
 </head>
 <body>
-  <div id="header"></div>
-
-  <script>
-    fetch("header.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("header").innerHTML = data;
-      });
-  </script>
-
+  <header>
+    <h1>Nowhereville County Police Department</h1>
+    <p>Serving and Protecting the Citizens of Nowhereville, USA</p>
+    <button id="login-btn">Login</button>
+    <span id="user-email" style="color: white;"></span>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About NVCPD</a>
+    <a href="roster.html">Officer Roster</a>
+    <a href="casefiles.html">Case Files</a>
+    <a href="10codes.html">10-Codes</a>
+    <a href="careers.html">Careers</a>
+  </nav>
   <div class="content">
     <h2>Welcome to the Nowhereville Police Department</h2>
-    <p>
-      The Nowhereville County Police Department (NVCPD) is committed to safeguarding our virtual community
-      through integrity, professionalism, and excellence in service.
-    </p>
-    <p>
-      This official website provides access to officer rosters, case files, radio codes, and careers in law enforcement within Nowhereville, USA.
-    </p>
-    <p>
-      Stay informed, stay involved. Our department works hand-in-hand with the community to ensure the safety of all citizens. Explore the links above to learn more.
-    </p>
+    <p>We are committed to integrity, professionalism, and excellence in our Roblox community.</p>
+    <h3>Contact Us</h3>
+    <p>Email: <a href="mailto:nvcpd.pr@gmail.com">nvcpd.pr@gmail.com</a><br>
+    Discord: <a href="https://discord.gg/n7nrKGqx8g" target="_blank">Join Server</a></p>
   </div>
-
   <footer>
-    &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
-
-  <!-- Login functionality only if needed -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
-      authDomain: "nvcpd-database.firebaseapp.com",
-      projectId: "nvcpd-database",
-      storageBucket: "nvcpd-database.appspot.com",
-      messagingSenderId: "111892634044",
-      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    window.login = function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-          alert("Logged in!");
-          document.getElementById("loginModal").style.display = "none";
-        })
-        .catch(error => {
-          alert("Login failed: " + error.message);
-        });
-    };
-
-    document.addEventListener("click", function (e) {
-      if (e.target && e.target.id === "loginBtn") {
-        document.getElementById("loginModal").style.display = "block";
-      }
-    });
-  </script>
 </body>
 </html>
