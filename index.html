@@ -9,64 +9,99 @@
       margin: 0;
       font-family: Georgia, serif;
       background-color: #f4f4f4;
-      color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background-color: #00274d;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      background-color: #003366;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+      gap: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .login-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #004080;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .login-btn:hover {
+      background-color: #0055aa;
     }
     .content {
+      flex: 1;
       padding: 20px;
       max-width: 1000px;
       margin: auto;
       background-color: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h1, h2 {
-      color: #00274d;
-    }
     footer {
-      position: relative;
-      bottom: 0;
-      width: 100%;
       text-align: center;
-      padding: 10px;
       background-color: #00274d;
       color: white;
+      padding: 10px;
       font-size: 14px;
-      margin-top: 50px;
     }
   </style>
 </head>
 <body>
-  <div id="header"></div>
+  <header>
+    <h1>Nowhereville County Police Department</h1>
+    <p>Serving and Protecting the Citizens of Nowhereville</p>
+    <button class="login-btn" onclick="showLogin()">Login</button>
+  </header>
 
-  <script>
-    fetch("header.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("header").innerHTML = data;
-      });
-  </script>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About NVCPD</a>
+    <a href="roster.html">Officer Roster</a>
+    <a href="casefiles.html">Case Files</a>
+    <a href="10codes.html">10-Codes</a>
+    <a href="careers.html">Careers</a>
+  </nav>
 
   <div class="content">
     <h2>Welcome to the Nowhereville Police Department</h2>
     <p>
-      The Nowhereville County Police Department (NVCPD) is committed to safeguarding our virtual community
-      through integrity, professionalism, and excellence in service.
+      The Nowhereville County Police Department (NVCPD) is committed to serving our <a href ="https://www.roblox.com/games/4991214437/town" target="_blank">Town</a> with professionalism, pride, and dedication.
     </p>
     <p>
-      This official website provides access to officer rosters, case files, radio codes, and careers in law enforcement within Nowhereville, USA.
+      Our site provides access to department resources, rosters, case management, 10-codes, and more.
     </p>
-    <p>
-      Stay informed, stay involved. Our department works hand-in-hand with the community to ensure the safety of all citizens. Explore the links above to learn more.
-    </p>
+    <h3>Contact Us</h3>
+    <p>Email: <a href="mailto:nvcpd.pr@gmail.com">nvcpd.pr@gmail.com</a></p>
+    <p>Join our Discord: <a href="https://discord.gg/n7nrKGqx8g" target="_blank">https://discord.gg/n7nrKGqx8g</a></p>
   </div>
 
   <footer>
-    &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 
-  <!-- Login functionality only if needed -->
+  <!-- Firebase + Auth -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
@@ -80,24 +115,16 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    window.login = function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-          alert("Logged in!");
-          document.getElementById("loginModal").style.display = "none";
-        })
-        .catch(error => {
-          alert("Login failed: " + error.message);
-        });
-    };
+    window.showLogin = () => {
+      const email = prompt("Enter your email:");
+      const password = prompt("Enter your password:");
 
-    document.addEventListener("click", function (e) {
-      if (e.target && e.target.id === "loginBtn") {
-        document.getElementById("loginModal").style.display = "block";
+      if (email && password) {
+        signInWithEmailAndPassword(auth, email, password)
+          .then(() => alert("Login successful"))
+          .catch((error) => alert("Login failed: " + error.message));
       }
-    });
+    };
   </script>
 </body>
 </html>
