@@ -92,41 +92,92 @@
 
   <!-- Firebase SDK -->
 <script type="module">
-  // Add after Firebase config
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  const db = getFirestore(app);
-  const caseFileForm = document.getElementById("caseFileForm");
-  const restrictedSection = document.getElementById("caseFileSection");
+  const firebaseConfig = {
+    apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
+    authDomain: "nvcpd-database.firebaseapp.com",
+    projectId: "nvcpd-database",
+    storageBucket: "nvcpd-database.appspot.com",
+    messagingSenderId: "111892634044",
+    appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
+  };
 
-  onAuthStateChanged(auth, async (user) => {
-    if (user && user.email === "admin511@nvcpd.com") {
-      restrictedSection.style.display = "block";
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const loginBtn = document.querySelector(".login-btn");
+  const logoutBtn = document.querySelector(".logout-btn");
+  const caseForm = document.getElementById("caseFileForm");
+  const section = document.getElementById("caseFileSection");
+
+  const ADMIN_EMAIL = "admin511@nvcpd.com"; // replace this with your real admin email
+
+  function updateUI(user) {
+    if (user) {
+      loginBtn.textContent = `Logged in as ${user.email}`;
+      loginBtn.disabled = true;
+      loginBtn.style.backgroundColor = "#666";
+      logoutBtn.style.display = "inline-block";
+
+      if (user.email === ADMIN_EMAIL) {
+        section.style.display = "block";
+      } else {
+        section.innerHTML = "<p>You do not have permission to view this page.</p>";
+      }
     } else {
-      restrictedSection.innerHTML = "<p>Access denied. Only authorized personnel can view this page.</p>";
+      loginBtn.textContent = "Login";
+      loginBtn.disabled = false;
+      loginBtn.style.backgroundColor = "";
+      logoutBtn.style.display = "none";
+      section.style.display = "none";
     }
+  }
+
+  window.showLogin = () => {
+    const email = prompt("Enter your email:");
+    const password = prompt("Enter your password:");
+    if (email && password) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => alert("Login successful"))
+        .catch(err => alert("Login failed: " + err.message));
+    }
+  };
+
+  loginBtn.addEventListener("click", showLogin);
+
+  logoutBtn.addEventListener("click", () => {
+    signOut(auth).then(() => alert("Logged out."));
   });
 
-  caseFileForm?.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  onAuthStateChanged(auth, (user) => {
+    updateUI(user);
+  });
 
+  caseForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
     const title = document.getElementById("title").value;
-    const description = document.getElementById("description").value;
     const officer = document.getElementById("officer").value;
-    const date = new Date(document.getElementById("date").value + "T" + document.getElementById("time").value);
+    const description = document.getElementById("description").value;
+    const dateInput = document.getElementById("date").value;
+    const timeInput = document.getElementById("time").value;
+
+    const fullDate = new Date(`${dateInput}T${timeInput}`);
 
     try {
       await addDoc(collection(db, "casefiles"), {
         title,
-        description,
         officer,
-        date
+        description,
+        date: fullDate
       });
-      alert("Case file saved!");
-      caseFileForm.reset();
+      alert("Case file submitted!");
+      caseForm.reset();
     } catch (err) {
-      console.error(err);
-      alert("Failed to save case file.");
+      alert("Failed to save: " + err.message);
     }
   });
 </script>
