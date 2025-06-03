@@ -100,31 +100,52 @@
 
   <!-- Firebase + Auth -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
-      authDomain: "nvcpd-database.firebaseapp.com",
-      projectId: "nvcpd-database",
-      storageBucket: "nvcpd-database.appspot.com",
-      messagingSenderId: "111892634044",
-      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
+    authDomain: "nvcpd-database.firebaseapp.com",
+    projectId: "nvcpd-database",
+    storageBucket: "nvcpd-database.appspot.com",
+    messagingSenderId: "111892634044",
+    appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-    window.showLogin = () => {
-      const email = prompt("Enter your email:");
-      const password = prompt("Enter your password:");
+  const loginBtn = document.querySelector(".login-btn");
 
-      if (email && password) {
-        signInWithEmailAndPassword(auth, email, password)
-          .then(() => alert("Login successful"))
-          .catch((error) => alert("Login failed: " + error.message));
-      }
-    };
+  function updateUI(user) {
+    if (user) {
+      loginBtn.textContent = `Logged in as ${user.email}`;
+      loginBtn.disabled = true;
+      loginBtn.style.backgroundColor = "#666";
+    } else {
+      loginBtn.textContent = "Login";
+      loginBtn.disabled = false;
+      loginBtn.onclick = showLogin;
+    }
+  }
+
+  window.showLogin = () => {
+    const email = prompt("Enter your email:");
+    const password = prompt("Enter your password:");
+
+    if (email && password) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => alert("Login successful"))
+        .catch((error) => alert("Login failed: " + error.message));
+    }
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    updateUI(user);
+  });
+
+  window.auth = auth;
+</script>
   </script>
 </body>
 </html>
