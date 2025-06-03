@@ -54,44 +54,41 @@
   </style>
 </head>
 <body>
-
+<body>
   <header>
     <h1>Nowhereville County Police Department</h1>
     <p>Serving and Protecting the Citizens of Nowhereville</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="roster.html">Roster</a>
+      <a href="about.html">About</a>
+      <a href="casefiles.html">Case Files</a>
+      <a href="10codes.html">10 Codes</a>
+      <a href="careers.html">Careers</a>
+      <button class="login-btn">Login</button>
+      <button class="logout-btn" style="display:none;">Logout</button>
+    </nav>
   </header>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About NVCPD</a>
-    <a href="roster.html">Officer Roster</a>
-    <a href="casefiles.html">Case Files</a>
-    <a href="10codes.html">10-Codes</a>
-    <a href="careers.html">Careers</a>
-  </nav>
+  <main>
+    <h2>Case File Management</h2>
+    <div id="caseFileSection" style="display:none;">
+      <h3>Create Case File</h3>
+      <form id="caseFileForm">
+        <input type="text" id="title" placeholder="Case Title" required><br>
+        <input type="text" id="officer" placeholder="Officer Name" required><br>
+        <textarea id="description" placeholder="Case Description" required></textarea><br>
+        <input type="date" id="date" required>
+        <input type="time" id="time" required><br>
+        <button type="submit">Submit Case File</button>
+      </form>
+    </div>
+  </main>
 
-  <div class="content">
-    <h2>Create Case File</h2>
-    <form id="caseForm">
-      <label>Case Title</label>
-      <input type="text" id="caseTitle" required>
-
-      <label>Description</label>
-      <textarea id="caseDescription" rows="5" required></textarea>
-
-      <label>Officer Name</label>
-      <input type="text" id="officerName" required>
-
-      <label>Date and Time</label>
-      <input type="date" id="caseDate" required>
-      <input type="time" id="caseTime" required>
-
-      <button type="submit">Submit Case File</button>
-    </form>
-  </div>
-
-  <footer>
-    &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
+  <footer style="background-color: #004080; color: white; padding: 10px; text-align: center; position: fixed; bottom: 0; width: 100%;">
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
+
 
   <!-- Firebase SDK -->
 <script type="module">
