@@ -94,55 +94,44 @@
   </footer>
 
   <!-- Firebase SDK -->
-  <script type="module">
-    // Import Firebase modules
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script type="module">
+  // Add after Firebase config
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // Your Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
-      authDomain: "nvcpd-database.firebaseapp.com",
-      projectId: "nvcpd-database",
-      storageBucket: "nvcpd-database.appspot.com",
-      messagingSenderId: "111892634044",
-      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
-    };
+  const db = getFirestore(app);
+  const caseFileForm = document.getElementById("caseFileForm");
+  const restrictedSection = document.getElementById("caseFileSection");
 
-    // Init Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  onAuthStateChanged(auth, async (user) => {
+    if (user && user.email === "admin511@nvcpd.com") {
+      restrictedSection.style.display = "block";
+    } else {
+      restrictedSection.innerHTML = "<p>Access denied. Only authorized personnel can view this page.</p>";
+    }
+  });
 
-    const caseForm = document.getElementById('caseForm');
+  caseFileForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    caseForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    const officer = document.getElementById("officer").value;
+    const date = new Date(document.getElementById("date").value + "T" + document.getElementById("time").value);
 
-      const title = document.getElementById('caseTitle').value;
-      const description = document.getElementById('caseDescription').value;
-      const officer = document.getElementById('officerName').value;
-      const dateVal = document.getElementById('caseDate').value;
-      const timeVal = document.getElementById('caseTime').value;
-
-      // Combine date and time into JS Date
-      const fullDate = new Date(`${dateVal}T${timeVal}`);
-      const timestamp = Timestamp.fromDate(fullDate);
-
-      try {
-        await addDoc(collection(db, "casefiles"), {
-          title,
-          description,
-          officer,
-          date: timestamp
-        });
-
-        alert("Case file submitted!");
-        caseForm.reset();
-      } catch (error) {
-        alert("Error saving case file: " + error.message);
-      }
-    });
-  </script>
-
+    try {
+      await addDoc(collection(db, "casefiles"), {
+        title,
+        description,
+        officer,
+        date
+      });
+      alert("Case file saved!");
+      caseFileForm.reset();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save case file.");
+    }
+  });
+</script>
 </body>
 </html>
