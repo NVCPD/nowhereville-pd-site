@@ -3,142 +3,177 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About NVCPD</title>
+  <title>About Us - Nowhereville PD</title>
   <style>
-    body { font-family: Georgia, serif; background-color: #f4f4f4; margin: 0; }
-    header, footer { background-color: #00274d; color: white; text-align: center; padding: 20px; }
-    nav { background-color: #003366; padding: 10px; text-align: center; }
-    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
-    nav a:hover { text-decoration: underline; }
-    .container { max-width: 1000px; margin: auto; background: white; padding: 20px; }
-    h2 { color: #00274d; }
+    body {
+      font-family: Georgia, serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f1f1f1;
+      color: #333;
+    }
+
+    header {
+      background-color: #1c1c1c;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #333;
+      overflow: hidden;
+    }
+
+    nav a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      background-color: #575757;
+    }
+
+    main {
+      padding: 30px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #222;
+    }
+
+    p {
+      line-height: 1.6;
+      margin: 20px 0;
+    }
+
+    .preview-section {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0;
+    }
+
+    .preview-section img {
+      max-width: 90%;
+      height: auto;
+      border: 4px solid #333;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .discord-link {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .discord-link a {
+      background-color: #5865f2;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .discord-link a:hover {
+      background-color: #4752c4;
+    }
+
+    .divisions {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+
+    .division {
+      margin-bottom: 20px;
+    }
+
+    .division h3 {
+      margin: 0 0 5px;
+      color: #1c1c1c;
+    }
+
+    .division p {
+      margin: 0;
+      color: #444;
+    }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo-placeholder.png" alt="NVCPD Logo" style="height: 80px;"><br>
-    <h1>Nowhereville County Police Department</h1>
-    <p>Serving and Protecting the Citizens of Nowhereville County</p>
+    <h1>About Nowhereville Police Department</h1>
   </header>
 
   <nav>
     <a href="index.html">Home</a>
-    <a href="about.html">About NVCPD</a>
-    <a href="roster.html">Officer Roster</a>
-    <a href="casefiles.html">Case Files</a>
-    <a href="10codes.html">10-Codes</a>
+    <a href="about.html">About</a>
+    <a href="roster.html">Roster</a>
     <a href="careers.html">Careers</a>
+    <a href="casefiles.html">Case Files</a>
   </nav>
 
-  <div class="container">
-    <h2>About the Department</h2>
-    <p>The Nowhereville County Police Department (NVCPD) is the official law enforcement agency of No-where Ville, USA. We are dedicated to providing outstanding public safety and community engagement through fairness, discipline, and strength.</p>
+  <main>
+    <h2>Our Mission</h2>
+    <p>The Nowhereville Police Department is committed to maintaining safety, order, and justice throughout Nowhereville. We work closely with the community to ensure transparency, fairness, and effective response to any critical incidents.</p>
 
-    <h3>Divisions</h3>
-    <ul>
-      <li><strong>High Command:</strong> Senior leadership and command staff.</li>
-      <li><strong>Critical Incident Response Team (CIRT):</strong> Tactical operations and high-risk incident response.</li>
-      <li><strong>Plot Safety & Community Service Unit (PS&CSU):</strong> Maintains order during events and handles raiders and disturbances with plots.</li>
-      <li><strong>Patrol Unit:</strong> Daily patrols, traffic enforcement, and emergency response.</li>
-      <li><strong>Cybersecurity Team:</strong> Manages internal data and online security.</li>
-      <li><strong>Canine Unit (K9):</strong> Trained K9 handlers for searches and raids.</li>
-      <li><strong>Recruitment Unit:</strong> Oversees recruitment, onboarding, and officer development.</li>
-    </ul>
-  </div>
+    <div class="preview-section">
+      <img src="placeholder.jpg" alt="Team Preview or Community Engagement Image" />
+    </div>
 
-  <footer>
-    &copy; 2025 Nowhereville County Police Department. All rights reserved.
-  </footer>
-  <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    <p>Every officer and unit within NVPD undergoes thorough training to uphold the highest standards of policing. Our divisions work tirelessly to protect the residents of Nowhereville and foster trust between law enforcement and the people.</p>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
-    authDomain: "nvcpd-database.firebaseapp.com",
-    projectId: "nvcpd-database",
-    storageBucket: "nvcpd-database.appspot.com",
-    messagingSenderId: "111892634044",
-    appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
-  };
+    <div class="divisions">
+      <h2>Our Divisions</h2>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+      <div class="division">
+        <h3>High Command</h3>
+        <p>Senior leadership and command staff overseeing department operations and strategy.</p>
+      </div>
 
-  const loginBtn = document.querySelector(".login-btn");
-  const logoutBtn = document.querySelector(".logout-btn");
-  const caseForm = document.getElementById("caseFileForm");
-  const section = document.getElementById("caseFileSection");
+      <div class="division">
+        <h3>Critical Incident Response Team (CIRT)</h3>
+        <p>Handles tactical operations and responds to high-risk incidents across the town</p>
+      </div>
 
-  const ADMIN_EMAIL = "admin511@nvcpd.com";
+      <div class="division">
+        <h3>Plot Safety & Community Service Unit (PS&CSU)</h3>
+        <p>Maintains order during public events and responds to raiders or disturbances involving plots.</p>
+      </div>
 
-  function updateUI(user) {
-    if (user) {
-      loginBtn.textContent = `Logged in as ${user.email}`;
-      loginBtn.disabled = true;
-      loginBtn.style.backgroundColor = "#666";
-      logoutBtn.style.display = "inline-block";
+      <div class="division">
+        <h3>Patrol Unit</h3>
+        <p>Conducts routine patrols, traffic enforcement, and first-response to emergencies.</p>
+      </div>
 
-      if (user.email === ADMIN_EMAIL) {
-        section.style.display = "block";
-      } else {
-        section.innerHTML = "<p>You do not have permission to view this page.</p>";
-      }
-    } else {
-      loginBtn.textContent = "Login";
-      loginBtn.disabled = false;
-      loginBtn.style.backgroundColor = "";
-      logoutBtn.style.display = "none";
-      section.style.display = "none";
-    }
-  }
+      <div class="division">
+        <h3>Cybersecurity Team</h3>
+        <p>Protects internal systems, monitors online threats, and maintains data security.</p>
+      </div>
 
-  window.showLogin = () => {
-    const email = prompt("Enter your email:");
-    const password = prompt("Enter your password:");
-    if (email && password) {
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => alert("Login successful"))
-        .catch(err => alert("Login failed: " + err.message));
-    }
-  };
+      <div class="division">
+        <h3>Canine Unit (K9)</h3>
+        <p>Utilizes trained K9 handlers and dogs for searches, raids, and suspect apprehension.</p>
+      </div>
 
-  loginBtn.addEventListener("click", showLogin);
+      <div class="division">
+        <h3>Recruitment Unit</h3>
+        <p>Manages recruitment, onboarding, and development of new and current officers.</p>
+      </div>
+    </div>
 
-  logoutBtn.addEventListener("click", () => {
-    signOut(auth).then(() => alert("Logged out."));
-  });
-
-  onAuthStateChanged(auth, (user) => {
-    updateUI(user);
-  });
-
-  caseForm?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const title = document.getElementById("title").value;
-    const officer = document.getElementById("officer").value;
-    const description = document.getElementById("description").value;
-    const dateInput = document.getElementById("date").value;
-    const timeInput = document.getElementById("time").value;
-
-    const fullDate = new Date(`${dateInput}T${timeInput}`);
-
-    try {
-      await addDoc(collection(db, "casefiles"), {
-        title,
-        officer,
-        description,
-        date: fullDate
-      });
-      alert("Case file submitted!");
-      caseForm.reset();
-    } catch (err) {
-      alert("Failed to save: " + err.message);
-    }
-  });
-</script>
-
+    <div class="discord-link">
+      <a href="https://www.roblox.com/users/2520758680/profile" target="_blank">Our Plot Maker</a>
+    </div>
+  </main>
 </body>
 </html>
