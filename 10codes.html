@@ -3,61 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>10-Codes - NVCPD</title>
+  <title>10-Codes - Nowhereville PD</title>
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: Georgia, serif;
-      display: flex;
-      flex-direction: column;
-    }
-    header, footer {
-      background-color: #00274d;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-    nav {
-      background-color: #003366;
-      padding: 10px;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+    body { font-family: Georgia, serif; background-color: #f4f4f4; margin: 0; }
+    header, footer { background-color: #00274d; color: white; text-align: center; padding: 20px; }
+    nav { background-color: #003366; padding: 10px; text-align: center; }
+    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
     nav a:hover { text-decoration: underline; }
-    .container {
-      flex: 1;
-      max-width: 1000px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-    }
+    .container { max-width: 900px; margin: auto; background: white; padding: 20px; }
     h2 { color: #00274d; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    td, th {
-      border: 1px solid #ccc;
-      padding: 10px;
-    }
-    th {
-      background-color: #003366;
-     color: white;
-    }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    th { background-color: #e1e1e1; }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo-placeholder.png" alt="NVCPD Logo" style="height: 80px;"><br>
     <h1>Nowhereville County Police Department</h1>
-    <p>10-Codes Reference</p>
+    <p>Official 10-Codes Reference</p>
   </header>
 
   <nav>
@@ -67,11 +30,19 @@
     <a href="casefiles.html">Case Files</a>
     <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
+    <a href="javascript:void(0)" id="loginNav">Login</a>
   </nav>
 
   <div class="container">
-    <h2>1-9 Codes</h2>
+    <h2>10-Codes Reference List</h2>
     <table>
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
       <tr><th>Code</th><th>Description</th></tr>
       <tr><td>10-1</td><td>Unable to Copy - Change Location</td></tr>
       <tr><td>10-2</td><td>Signal Good</td></tr>
@@ -82,11 +53,45 @@
       <tr><td>10-7</td><td>Out of Service - Off duty</td></tr>
       <tr><td>10-8</td><td>In service - On duty</td></tr>
       <tr><td>10-9</td><td>Repeat</td></tr>
+      </tbody>
     </table>
   </div>
 
   <footer>
     &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
+      authDomain: "nvcpd-database.firebaseapp.com",
+      projectId: "nvcpd-database",
+      storageBucket: "nvcpd-database.appspot.com",
+      messagingSenderId: "111892634044",
+      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginNav = document.getElementById("loginNav");
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginNav.textContent = "Logout";
+        loginNav.onclick = () => {
+          signOut(auth).then(() => location.reload());
+        };
+      } else {
+        loginNav.textContent = "Login";
+        loginNav.onclick = () => {
+          alert("Please log in via the Case Files page.");
+        };
+      }
+    });
+  </script>
 </body>
 </html>
