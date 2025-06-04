@@ -17,6 +17,16 @@
     th, td { border: 1px solid #ccc; padding: 10px; text-align: left; vertical-align: middle; }
     th { background-color: #e1e1e1; }
     img.officer-photo { width: 60px; height: 60px; object-fit: cover; border-radius: 5px; }
+    .nameplate {
+      display: inline-block;
+      background-color: #00274d;
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      margin-left: 8px;
+      border-radius: 3px;
+      vertical-align: middle;
+    }
   </style>
 </head>
 <body>
@@ -33,6 +43,7 @@
     <a href="casefiles.html">Case Files</a>
     <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
+    <a href="javascript:void(0)" id="loginNav">Login</a>
   </nav>
 
   <div class="container">
@@ -52,14 +63,14 @@
       <tbody>
         <tr>
           <td><img src="https://i.imgur.com/uJUgcX8.png" alt="Tomorrow" class="officer-photo"></td>
-          <td>Tomorrow</td>
+          <td>Tomorrow <span class="nameplate">COMMISSIONER</span></td>
           <td>Commissioner</td>
           <td>0000</td>
           <td>Active</td>
         </tr>
         <tr>
           <td><img src="https://i.imgur.com/oBlsdrT.png" class="officer-photo"></td>
-          <td>Shane</td>
+          <td>Shane <span class="nameplate">CHIEF</span></td>
           <td>Chief</td>
           <td>0000</td>
           <td>Active</td>
@@ -72,7 +83,7 @@
       <tbody>
         <tr>
           <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
-          <td>John Doe</td>
+          <td>John Doe <span class="nameplate">OFFICER</span></td>
           <td>Officer</td>
           <td>1000</td>
           <td>On Patrol</td>
@@ -85,7 +96,7 @@
       <tbody>
         <tr>
           <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
-          <td>John D.</td>
+          <td>John D. <span class="nameplate">CIRT</span></td>
           <td>Officer</td>
           <td>0000</td>
           <td>Administrative Leave</td>
@@ -98,7 +109,7 @@
       <tbody>
         <tr>
           <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
-          <td>John D.</td>
+          <td>John D. <span class="nameplate">PS&CSU</span></td>
           <td>Sergeant</td>
           <td>0000</td>
           <td>Training</td>
@@ -111,7 +122,7 @@
       <tbody>
         <tr>
           <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
-          <td>John D.</td>
+          <td>John D. <span class="nameplate">RECRUIT</span></td>
           <td>Probationary Officer</td>
           <td>0000</td>
           <td>Probation</td>
@@ -124,7 +135,7 @@
       <tbody>
         <tr>
           <td><img src="https://via.placeholder.com/60" class="officer-photo"></td>
-          <td>John & K9 Doe</td>
+          <td>John & K9 Doe <span class="nameplate">K9</span></td>
           <td>K9 Handler</td>
           <td>0000</td>
           <td>Deployed</td>
@@ -136,5 +147,38 @@
   <footer>
     &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
+      authDomain: "nvcpd-database.firebaseapp.com",
+      projectId: "nvcpd-database",
+      storageBucket: "nvcpd-database.appspot.com",
+      messagingSenderId: "111892634044",
+      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginNav = document.getElementById("loginNav");
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginNav.textContent = "Logout";
+        loginNav.onclick = () => {
+          signOut(auth).then(() => location.reload());
+        };
+      } else {
+        loginNav.textContent = "Login";
+        loginNav.onclick = () => {
+          alert("Please log in via the Case Files page.");
+        };
+      }
+    });
+  </script>
 </body>
 </html>
