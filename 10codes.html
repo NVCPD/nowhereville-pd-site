@@ -11,10 +11,12 @@
     nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
     nav a:hover { text-decoration: underline; }
     .container { max-width: 900px; margin: auto; background: white; padding: 20px; }
-    h2, h3 { color: #00274d; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 30px; }
+    h2 { color: #00274d; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
     th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
     th { background-color: #e1e1e1; }
+    .search-filter { margin-bottom: 20px; display: flex; gap: 10px; }
+    .search-filter input, .search-filter select { padding: 8px; font-size: 16px; width: 100%; max-width: 300px; }
   </style>
 </head>
 <body>
@@ -35,80 +37,32 @@
 
   <div class="container">
     <h2>10-Codes Reference List</h2>
-
-    <h3>General Comms& Status Codes</h3>
-    <table><tbody>
-      <tr><td>10-1</td><td>Unable to Copy - Change Location</td></tr>
-      <tr><td>10-2</td><td>Signal Good</td></tr>
-      <tr><td>10-3</td><td>Stop Transmitting</td></tr>
-      <tr><td>10-4</td><td>Acknowledgment (OK)</td></tr>
-      <tr><td>10-5</td><td>Relay</td></tr>
-      <tr><td>10-6</td><td>Busy - Unless Urgent</td></tr>
-      <tr><td>10-7</td><td>Out of Service</td></tr>
-      <tr><td>10-8</td><td>In Service</td></tr>
-      <tr><td>10-9</td><td>Repeat</td></tr>
-      <tr><td>10-20</td><td>Location</td></tr>
-      <tr><td>10-21</td><td>Call ___ by Phone</td></tr>
-      <tr><td>10-22</td><td>Disregard</td></tr>
-      <tr><td>10-23</td><td>Arrived at Scene</td></tr>
-      <tr><td>10-24</td><td>Assignment Completed</td></tr>
-      <tr><td>10-41</td><td>Beginning Tour of Duty</td></tr>
-      <tr><td>10-42</td><td>Ending Tour of Duty</td></tr>
-    </tbody></table>
-
-    <h3>Emergency & Crime Codes</h3>
-    <table><tbody>
-      <tr><td>10-10</td><td>Fight In Progress</td></tr>
-      <tr><td>10-14</td><td>Prowler Report</td></tr>
-      <tr><td>10-15</td><td>Civil Disturbance</td></tr>
-      <tr><td>10-16</td><td>Domestic Problem</td></tr>
-      <tr><td>10-31</td><td>Crime in Progress</td></tr>
-      <tr><td>10-32</td><td>Man with Gun</td></tr>
-      <tr><td>10-33</td><td>Emergency</td></tr>
-      <tr><td>10-34</td><td>Riot</td></tr>
-      <tr><td>10-35</td><td>Major Crime Alert</td></tr>
-      <tr><td>10-89</td><td>Bomb Threat</td></tr>
-      <tr><td>10-90</td><td>Bank Alarm</td></tr>
-    </tbody></table>
-
-    <h3>Fire & Rescue Codes</h3>
-    <table><tbody>
-      <tr><td>10-70</td><td>Fire Alarm</td></tr>
-      <tr><td>10-71</td><td>Advise Nature of Fire</td></tr>
-      <tr><td>10-72</td><td>Report Progress on Fire</td></tr>
-      <tr><td>10-73</td><td>Smoke Report</td></tr>
-    </tbody></table>
-
-    <h3>Admin, Logistics & Support</h3>
-    <table><tbody>
-      <tr><td>10-25</td><td>Report in Person</td></tr>
-      <tr><td>10-27</td><td>License Information</td></tr>
-      <tr><td>10-28</td><td>Vehicle Registration</td></tr>
-      <tr><td>10-29</td><td>Check for Wanted</td></tr>
-      <tr><td>10-44</td><td>Permission to Leave</td></tr>
-      <tr><td>10-68</td><td>Dispatch Information</td></tr>
-    </tbody></table>
-
-    <h3>Prisoners & Mental Health</h3>
-    <table><tbody>
-      <tr><td>10-91</td><td>Pick Up Prisoner</td></tr>
-      <tr><td>10-95</td><td>Prisoner in Custody</td></tr>
-      <tr><td>10-96</td><td>Mental Subject</td></tr>
-      <tr><td>10-98</td><td>Jail Break</td></tr>
-    </tbody></table>
-
-    <h3>Misclelaneous & Special occasions</h3>
-    <table><tbody>
-      <tr><td>10-39</td><td>Urgent - Use Light, Siren</td></tr>
-      <tr><td>10-40</td><td>Silent Run</td></tr>
-      <tr><td>10-76</td><td>En Route</td></tr>
-      <tr><td>10-77</td><td>ETA</td></tr>
-      <tr><td>10-78</td><td>Need Assistance</td></tr>
-      <tr><td>10-79</td><td>Notify Coroner</td></tr>
-      <tr><td>10-80</td><td>Chase in Progress</td></tr>
-      <tr><td>10-106</td><td>Secure</td></tr>
-    </tbody></table>
-
+    <div class="search-filter">
+      <input type="text" id="searchInput" placeholder="Search code or meaning...">
+      <select id="categoryFilter">
+        <option value="">All Ctategories</option>
+        <option value="1-9">1-9</option>
+        <option value="10-19">10-19</option>
+        <option value="20-29">20-29</option>
+        <option value="30-39">30-39</option>
+        <option value="40-49">40-49</option>
+        <option value="50-59">50-59</option>
+        <option value="60-69">60-69</option>
+        <option value="70-79">70-79</option>
+        <option value="80-89">80-89</option>
+        <option value="90-106">90-106</option>
+      </select>
+    </div>
+    <table id="codesTable">
+      <thead>
+        <tr><th>Code</th><th>Meaning</th><th>Category</th></tr>
+      </thead>
+      <tbody>
+        <!-- CODE ROWS START -->
+        <!-- code rows get dynamically inserted here -->
+        <!-- CODE ROWS END -->
+      </tbody>
+    </table>
   </div>
 
   <footer>
@@ -132,20 +86,67 @@
     const auth = getAuth(app);
 
     const loginNav = document.getElementById("loginNav");
-
     onAuthStateChanged(auth, (user) => {
       if (user) {
         loginNav.textContent = "Logout";
-        loginNav.onclick = () => {
-          signOut(auth).then(() => location.reload());
-        };
+        loginNav.onclick = () => signOut(auth).then(() => location.reload());
       } else {
         loginNav.textContent = "Login";
-        loginNav.onclick = () => {
-          alert("Please log in via the Case Files page.");
-        };
+        loginNav.onclick = () => alert("Please log in via the Case Files page.");
       }
     });
+
+    const codes = [
+      { code: "10-1", meaning: "Unable to Copy - Change Location", category: "1-9" },
+      { code: "10-2", meaning: "Signal Good", category: "1-9" },
+      { code: "10-3", meaning: "Stop Transmitting", category: "1-9" },
+      { code: "10-4", meaning: "Acknowledgment (OK)", category: "1-9" },
+      { code: "10-5", meaning: "Relay", category: "1-9" },
+      { code: "10-6", meaning: "Busy - Unless Urgent", category: "1-9" },
+      { code: "10-7", meaning: "Out of Service", category: "1-9" },
+      { code: "10-8", meaning: "In Service", category: "1-9" },
+      { code: "10-9", meaning: "Repeat", category: "1-9" },
+      { code: "10-10", meaning: "Fight In Progress", category: "10-19" },
+      { code: "10-11", meaning: "Dog Case", category: "10-19" },
+      { code: "10-12", meaning: "Stand By (Stop)", category: "10-19" },
+      { code: "10-13", meaning: "Weather-Road Report", category: "10-19" },
+      { code: "10-14", meaning: "Prowler Report", category: "10-19" },
+      { code: "10-15", meaning: "Civil Disturbance", category: "10-19" },
+      { code: "10-16", meaning: "Domestic Problem", category: "10-19" },
+      { code: "10-17", meaning: "Meet Complainant", category: "10-19" },
+      { code: "10-18", meaning: "Quickly", category: "10-19" },
+      { code: "10-19", meaning: "Return to ___", category: "10-19" },
+      // more codes blabla creditz to hakeri511
+    ];
+
+    const tbody = document.querySelector("#codesTable tbody");
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+
+    function renderTable(filterText = "", category = "") {
+      tbody.innerHTML = "";
+      const filtered = codes.filter(row => {
+        const matchesText = row.code.toLowerCase().includes(filterText) || row.meaning.toLowerCase().includes(filterText);
+        const matchesCategory = !category || row.category === category;
+        return matchesText && matchesCategory;
+      });
+
+      for (const { code, meaning, category } of filtered) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${code}</td><td>${meaning}</td><td>${category}</td>`;
+        tbody.appendChild(tr);
+      }
+    }
+
+    searchInput.addEventListener("input", () => {
+      renderTable(searchInput.value.toLowerCase(), categoryFilter.value);
+    });
+
+    categoryFilter.addEventListener("change", () => {
+      renderTable(searchInput.value.toLowerCase(), categoryFilter.value);
+    });
+
+    renderTable();
   </script>
 </body>
 </html>
