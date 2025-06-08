@@ -94,11 +94,32 @@
         <label>Date & Time:</label><br>
         <input type="date" id="date" required>
         <input type="time" id="time" required><br><br>
+        <label>Category:</label><br>
+        <select id="category" required>
+          <option value="Theft">Theft</option>
+          <option value="Burglary">Burglary</option>
+          <option value="Assault">Assault</option>
+          <option value="Traffic">Traffic</option>
+          <option value="Other">Other</option>
+        </select><br><br>
+        <label>Tags (comma separated):</label><br>
+        <input type="text" id="tags" placeholder="e.g., Night Incident, Main Street"><br><br>
         <textarea id="description" placeholder="Case Description" rows="5" required></textarea><br><br>
         <button type="submit">Submit Case</button>
       </form>
 
       <hr>
+      <h3>Search & Filter Case Files</h3>
+      <input type="text" id="searchInput" placeholder="Search title or description...">
+      <select id="filterCategory">
+        <option value="">All Categories</option>
+        <option value="Theft">Theft</option>
+        <option value="Burglary">Burglary</option>
+        <option value="Assault">Assault</option>
+        <option value="Traffic">Traffic</option>
+        <option value="Other">Other</option>
+      </select>
+
       <h3>Submitted Case Files</h3>
       <div id="caseFilesList"></div>
     </div>
@@ -108,11 +129,10 @@
     &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
   </footer>
 
-  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, orderBy, getDocs, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, query, orderBy, getDocs, updateDoc, doc, deleteDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
@@ -133,7 +153,10 @@
     const logoutSection = document.getElementById("logoutSection");
     const caseFilesSection = document.getElementById("caseFilesSection");
 
+    let currentUser = null;
+
     function updateUI(user) {
+      currentUser = user;
       if (user && user.email === ADMIN_EMAIL) {
         loginForm.classList.add("hidden");
         logoutSection.classList.remove("hidden");
@@ -175,6 +198,9 @@
       const description = document.getElementById("description").value;
       const dateInput = document.getElementById("date").value;
       const timeInput = document.getElementById("time").value;
+      const category = document.getElementById("category").value;
+      const tagsInput = document.getElementById("tags").value;
+      const tags = tagsInput.split(",").map(tag => tag.trim()).filter(tag => tag);
 
       const fullDate = new Date(`${dateInput}T${timeInput}`);
       const timestamp = Timestamp.fromDate(fullDate);
@@ -184,7 +210,10 @@
           title,
           officer,
           description,
-          date: timestamp
+          date: timestamp,
+          category,
+          tags,
+          status: "draft"
         });
         alert("Case file submitted!");
         document.getElementById("caseForm").reset();
@@ -194,20 +223,31 @@
       }
     });
 
+    document.getElementById("searchInput").addEventListener("input", loadCaseFiles);
+    document.getElementById("filterCategory").addEventListener("change", loadCaseFiles);
+
     async function loadCaseFiles() {
       const listDiv = document.getElementById("caseFilesList");
       listDiv.innerHTML = "";
 
+      const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+      const selectedCategory = document.getElementById("filterCategory").value;
+
       const q = query(collection(db, "casefiles"), orderBy("date", "desc"));
       const querySnapshot = await getDocs(q);
 
-      if (querySnapshot.empty) {
-        listDiv.innerHTML = "<p>No case files found.</p>";
-        return;
-      }
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const id = docSnap.id;
 
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
+        if (data.status !== "published" && (!currentUser || currentUser.email !== ADMIN_EMAIL)) return;
+
+        const matchesSearch = data.title.toLowerCase().includes(searchTerm) ||
+                              data.description.toLowerCase().includes(searchTerm);
+        const matchesCategory = !selectedCategory || data.category === selectedCategory;
+
+        if (!matchesSearch || !matchesCategory) return;
+
         const date = data.date?.toDate?.().toLocaleString() ?? "N/A";
 
         const card = document.createElement("div");
@@ -220,9 +260,35 @@
           <strong>Title:</strong> ${data.title}<br>
           <strong>Officer:</strong> ${data.officer}<br>
           <strong>Date:</strong> ${date}<br>
+          <strong>Category:</strong> ${data.category}<br>
+          <strong>Tags:</strong> ${data.tags?.join(", ")}<br>
           <strong>Description:</strong><br>
           <pre>${data.description}</pre>
         `;
+
+        if (currentUser && currentUser.email === ADMIN_EMAIL) {
+          const publishBtn = document.createElement("button");
+          publishBtn.textContent = data.status === "published" ? "Unpublish" : "Publish";
+          publishBtn.onclick = async () => {
+            await updateDoc(doc(db, "casefiles", id), {
+              status: data.status === "published" ? "draft" : "published"
+            });
+            loadCaseFiles();
+          };
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.textContent = "Delete";
+          deleteBtn.onclick = async () => {
+            if (confirm("Are you sure you want to delete this case file?")) {
+              await deleteDoc(doc(db, "casefiles", id));
+              loadCaseFiles();
+            }
+          };
+
+          card.appendChild(publishBtn);
+          card.appendChild(deleteBtn);
+        }
+
         listDiv.appendChild(card);
       });
     }
