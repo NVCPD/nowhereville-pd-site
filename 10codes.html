@@ -11,8 +11,8 @@
     nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
     nav a:hover { text-decoration: underline; }
     .container { max-width: 900px; margin: auto; background: white; padding: 20px; }
-    h2 { color: #00274d; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    h2, h3 { color: #00274d; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 30px; }
     th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
     th { background-color: #e1e1e1; }
   </style>
@@ -35,20 +35,80 @@
 
   <div class="container">
     <h2>10-Codes Reference List</h2>
-    <table>
-      <tbody>
-      <tr><th>Code</th><th>Meaning</th></tr>
+
+    <h3>General Comms& Status Codes</h3>
+    <table><tbody>
       <tr><td>10-1</td><td>Unable to Copy - Change Location</td></tr>
       <tr><td>10-2</td><td>Signal Good</td></tr>
       <tr><td>10-3</td><td>Stop Transmitting</td></tr>
       <tr><td>10-4</td><td>Acknowledgment (OK)</td></tr>
       <tr><td>10-5</td><td>Relay</td></tr>
-      <tr><td>10-6</td><td>Busy - Unless Urgent/td></tr>
-      <tr><td>10-7</td><td>Out of Service - Off duty</td></tr>
-      <tr><td>10-8</td><td>In service - On duty</td></tr>
+      <tr><td>10-6</td><td>Busy - Unless Urgent</td></tr>
+      <tr><td>10-7</td><td>Out of Service</td></tr>
+      <tr><td>10-8</td><td>In Service</td></tr>
       <tr><td>10-9</td><td>Repeat</td></tr>
-      </tbody>
-    </table>
+      <tr><td>10-20</td><td>Location</td></tr>
+      <tr><td>10-21</td><td>Call ___ by Phone</td></tr>
+      <tr><td>10-22</td><td>Disregard</td></tr>
+      <tr><td>10-23</td><td>Arrived at Scene</td></tr>
+      <tr><td>10-24</td><td>Assignment Completed</td></tr>
+      <tr><td>10-41</td><td>Beginning Tour of Duty</td></tr>
+      <tr><td>10-42</td><td>Ending Tour of Duty</td></tr>
+    </tbody></table>
+
+    <h3>Emergency & Crime Codes</h3>
+    <table><tbody>
+      <tr><td>10-10</td><td>Fight In Progress</td></tr>
+      <tr><td>10-14</td><td>Prowler Report</td></tr>
+      <tr><td>10-15</td><td>Civil Disturbance</td></tr>
+      <tr><td>10-16</td><td>Domestic Problem</td></tr>
+      <tr><td>10-31</td><td>Crime in Progress</td></tr>
+      <tr><td>10-32</td><td>Man with Gun</td></tr>
+      <tr><td>10-33</td><td>Emergency</td></tr>
+      <tr><td>10-34</td><td>Riot</td></tr>
+      <tr><td>10-35</td><td>Major Crime Alert</td></tr>
+      <tr><td>10-89</td><td>Bomb Threat</td></tr>
+      <tr><td>10-90</td><td>Bank Alarm</td></tr>
+    </tbody></table>
+
+    <h3>Fire & Rescue Codes</h3>
+    <table><tbody>
+      <tr><td>10-70</td><td>Fire Alarm</td></tr>
+      <tr><td>10-71</td><td>Advise Nature of Fire</td></tr>
+      <tr><td>10-72</td><td>Report Progress on Fire</td></tr>
+      <tr><td>10-73</td><td>Smoke Report</td></tr>
+    </tbody></table>
+
+    <h3>Admin, Logistics & Support</h3>
+    <table><tbody>
+      <tr><td>10-25</td><td>Report in Person</td></tr>
+      <tr><td>10-27</td><td>License Information</td></tr>
+      <tr><td>10-28</td><td>Vehicle Registration</td></tr>
+      <tr><td>10-29</td><td>Check for Wanted</td></tr>
+      <tr><td>10-44</td><td>Permission to Leave</td></tr>
+      <tr><td>10-68</td><td>Dispatch Information</td></tr>
+    </tbody></table>
+
+    <h3>Prisoners & Mental Health</h3>
+    <table><tbody>
+      <tr><td>10-91</td><td>Pick Up Prisoner</td></tr>
+      <tr><td>10-95</td><td>Prisoner in Custody</td></tr>
+      <tr><td>10-96</td><td>Mental Subject</td></tr>
+      <tr><td>10-98</td><td>Jail Break</td></tr>
+    </tbody></table>
+
+    <h3>Misclelaneous & Special occasions</h3>
+    <table><tbody>
+      <tr><td>10-39</td><td>Urgent - Use Light, Siren</td></tr>
+      <tr><td>10-40</td><td>Silent Run</td></tr>
+      <tr><td>10-76</td><td>En Route</td></tr>
+      <tr><td>10-77</td><td>ETA</td></tr>
+      <tr><td>10-78</td><td>Need Assistance</td></tr>
+      <tr><td>10-79</td><td>Notify Coroner</td></tr>
+      <tr><td>10-80</td><td>Chase in Progress</td></tr>
+      <tr><td>10-106</td><td>Secure</td></tr>
+    </tbody></table>
+
   </div>
 
   <footer>
