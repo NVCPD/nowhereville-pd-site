@@ -41,15 +41,26 @@
     }
     footer {
       text-align: center;
-      padding: 10px;
+      padding: 20px;
       background-color: #0f172a;
       color: #d1d5db;
       position: relative;
       bottom: 0;
       width: 100%;
     }
-    #logoutBtn {
-      margin-top: 10px;
+    img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin: 15px 0;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    section {
+      margin-top: 30px;
+    }
+    a.external-link {
+      color: #60a5fa;
     }
   </style>
 </head>
@@ -58,6 +69,7 @@
     <h1>Nowhereville County Police Department</h1>
     <p>Serving and Protecting the Citizens of Nowhereville</p>
   </header>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About NVCPD</a>
@@ -70,9 +82,51 @@
 
   <div class="content">
     <h2>Welcome to the NVCPD Official Website</h2>
-    <p>The Nowhereville County Police Department (NVCPD) is committed to serving our <a href ="https://www.roblox.com/games/4991214437/town" target="_blank" style="color:#60a5fa;">Town</a> with professionalism, pride, and dedication.</p>
-  </div>
+    <p>The Nowhereville County Police Department (NVCPD) is committed to serving our <a href ="https://www.roblox.com/games/4991214437/town" target="_blank" class="external-link">Town</a> with professionalism, pride, and dedication.</p>
 
+    <img src="https://via.placeholder.com/960x300?text=Nowhereville+PD+Patrol+Vehicle" alt="Patrol Vehicle">
+
+    <section>
+      <h3>Meet the Chief</h3>
+      <img src="https://via.placeholder.com/800x250?text=Chief+Shane+Knight" alt="Chief Shane Knight">
+      <p>Chief Shane Knight leads the NVCPD with over a decade of experience in law enforcement and public safety. His commitment to justice and leadership drives our mission forward.</p>
+    </section>
+
+    <section>
+      <h3>Division Highlights</h3>
+      <ul>
+        <li><strong>Patrol Unit:</strong> Responds to emergency calls and patrols the streets to keep Nowhereville safe.</li>
+        <li><strong>Cybersecurity Team:</strong> Protects against digital threats and conducts cybercrime investigations.</li>
+        <li><strong>K9 Unit:</strong> Works with trained dogs for search, detection, and criminal apprehension.</li>
+        <li><strong>Critical Incident Response Team (CIRT):</strong> Handles high-risk situations and tactical operations.</li>
+        <li><strong>Plot Safety & Community Service Unit:</strong> Ensures safe public spaces and community outreach.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Quick Access</h3>
+      <ul>
+        <li><a href="index.html" class="external-link">Home</a></li>
+        <li><a href="10codes.html" class="external-link">Radio 10-Codes</a></li>
+        <li><a href="careers.html" class="external-link">Join the Force</a></li>
+        <li><a href="casefiles.html" class="external-link">Submit/View Case Files</a></li>
+        <li><a href="10codes.html" class="external-link">Radio 10-Codes</a></li>
+        <li><a href="careers.html" class="external-link">Join the Force</a></li>
+        <li><a href="https://discord.gg/n7nrKGqx8g" target="_blank" class="external-link">Official NVCPD Discord</a></li>
+        <li><a href="mailto:nvcpd.pr@gmail.com" class="external-link">Email Us: nvcpd.pr@gmail.com</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Public Safety Tips</h3>
+      <ul>
+        <li>Always lock your vehicle and home doors.</li>
+        <li>Report suspicious activity immediately.</li>
+        <li>Obey all local traffic laws and signals.</li>
+        <li>Stay aware of your surroundings at night.</li>
+      </ul>
+    </section>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -106,9 +160,11 @@
       }
     });
   </script>
-    <footer>
-    &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
-  </footer>
 
+  <footer>
+    &copy; 2025 Nowhereville County Police Department<br>
+    Contact us at <a href="mailto:nvcpd.pr@gmail.com" class="external-link">nvcpd.pr@gmail.com</a> | 
+    <a href="https://discord.gg/n7nrKGqx8g" target="_blank" class="external-link">Join our Discord</a>
+  </footer>
 </body>
 </html>
