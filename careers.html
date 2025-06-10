@@ -5,23 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Careers - Nowhereville County Police Department</title>
   <style>
+    :root {
+      --bg: #f4f4f4;
+      --text: #111;
+      --header-bg: #00274d;
+      --nav-bg: #003366;
+      --card-bg: white;
+      --accent: #2563eb;
+    }
+    body.dark {
+      --bg: #111827;
+      --text: #f9fafb;
+      --header-bg: #0f172a;
+      --nav-bg: #1e293b;
+      --card-bg: #1f2937;
+      --accent: #3b82f6;
+    }
+
     body {
       margin: 0;
+      background-color: var(--bg);
+      color: var(--text);
       font-family: Georgia, serif;
-      background-color: #111827;
-      color: white;
+      transition: background-color 0.3s, color 0.3s;
     }
     header {
-      background-color: #0f172a;
+      background-color: var(--header-bg);
       color: white;
       text-align: center;
       padding: 20px;
+      position: relative;
+    }
+    .dark-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: var(--accent);
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
     }
     nav {
-      background-color: #1e293b;
+      background-color: var(--nav-bg);
       padding: 10px;
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 20px;
     }
     nav a {
@@ -33,39 +65,42 @@
       text-decoration: underline;
     }
     .content {
-      padding: 20px;
+      padding: 30px;
       max-width: 1000px;
       margin: auto;
-      background-color: #1f2937;
+      background-color: var(--card-bg);
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      border-radius: 12px;
+      margin-top: 30px;
     }
     h2, h3 {
-      color: #60a5fa;
+      color: var(--accent);
     }
     ul {
       padding-left: 20px;
-    }
-    footer {
-      text-align: center;
-      padding: 10px;
-      background-color: #0f172a;
-      color: #d1d5db;
-      position: relative;
-      bottom: 0;
-      width: 100%;
     }
     a.button {
       display: inline-block;
       margin-top: 15px;
       padding: 10px 15px;
-      background-color: #2563eb;
+      background-color: var(--accent);
       color: white;
       text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
     }
     a.button:hover {
-      background-color: #1d4ed8;
+      filter: brightness(1.1);
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: var(--header-bg);
+      color: #d1d5db;
+      margin-top: 40px;
+    }
+    a.mail-link {
+      color: #3b82f6;
     }
   </style>
 </head>
@@ -73,6 +108,7 @@
   <header>
     <h1>Nowhereville County Police Department</h1>
     <p>Serving and Protecting the Citizens of Nowhereville</p>
+    <button class="dark-toggle" id="darkToggle">Toggle Dark Mode</button>
   </header>
 
   <nav>
@@ -86,7 +122,7 @@
 
   <div class="content">
     <h2>Careers at NVCPD</h2>
-    <p></p>The NVCPD is always looking for individuals who are committed to justice, teamwork, and integrity. If you’re interested in making a difference in Nowhereville, consider applying today</p>
+    <p>The NVCPD is always looking for individuals who are committed to justice, teamwork, and integrity. If you’re interested in making a difference in Nowhereville, consider applying today.</p>
 
     <h3>Requirements</h3>
     <ul>
@@ -95,7 +131,7 @@
       <li>Roblox account in good standing</li>
       <li>Willing to follow orders and chain of command</li>
       <li>Discord required for communication</li>
-      <li>MUST BE ACTIVE.</li>
+      <li><strong>MUST BE ACTIVE.</strong></li>
     </ul>
 
     <h3>Open Positions</h3>
@@ -111,11 +147,24 @@
     <h3>Apply Now</h3>
     <p>To begin your application, join our Discord server and speak with a recruitment officer or Chief.</p>
     <a class="button" href="https://discord.gg/n7nrKGqx8g" target="_blank">Join Discord</a>
-    <p>If you have questions, email us at: <a href="mailto:nvcpd.pr@gmail.com" style="color: #93c5fd;">nvcpd.pr@gmail.com</a></p>
+    <p>If you have questions, email us at: <a class="mail-link" href="mailto:nvcpd.pr@gmail.com">nvcpd.pr@gmail.com</a></p>
   </div>
 
   <footer>
     &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
   </footer>
+
+  <script>
+    const darkToggle = document.getElementById('darkToggle');
+    const body = document.body;
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark');
+    }
+
+    darkToggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+    });
+  </script>
 </body>
 </html>
