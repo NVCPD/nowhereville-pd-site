@@ -5,24 +5,151 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>10-Codes - Nowhereville PD</title>
   <style>
-    body { font-family: Georgia, serif; background-color: #f4f4f4; margin: 0; }
-    header, footer { background-color: #00274d; color: white; text-align: center; padding: 20px; }
-    nav { background-color: #003366; padding: 10px; text-align: center; }
-    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
-    nav a:hover { text-decoration: underline; }
-    .container { max-width: 900px; margin: auto; background: white; padding: 20px; }
-    h2 { color: #00274d; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-    th { background-color: #e1e1e1; }
-    .search-filter { margin-bottom: 20px; display: flex; gap: 10px; }
-    .search-filter input, .search-filter select { padding: 8px; font-size: 16px; width: 100%; max-width: 300px; }
+    :root {
+      --primary-color: #00274d;
+      --secondary-color: #003366;
+      --background-color: #f4f4f4;
+      --text-color: #111;
+      --table-header: #e1e1e1;
+      --card-bg: white;
+    }
+
+    body.dark {
+      --background-color: #121212;
+      --text-color: #f0f0f0;
+      --card-bg: #1e1e1e;
+      --table-header: #2c2c2c;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    header, footer {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    nav {
+      background-color: var(--secondary-color);
+      padding: 10px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.2s;
+    }
+
+    nav a:hover {
+      background-color: #004080;
+    }
+
+    #darkModeToggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: 2px solid white;
+      color: white;
+      border-radius: 25px;
+      padding: 5px 15px;
+      cursor: pointer;
+      font-weight: bold;
+      background-color: transparent;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark #darkModeToggle {
+      border-color: #f0f0f0;
+      color: #f0f0f0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+
+    h2 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+
+    body.dark h2 {
+      color: #4da3ff;
+    }
+
+    .search-filter {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-filter input, .search-filter select {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      flex: 1;
+      min-width: 250px;
+      background-color: white;
+    }
+
+    body.dark .search-filter input,
+    body.dark .search-filter select {
+      background-color: #2a2a2a;
+      color: #f0f0f0;
+      border: 1px solid #444;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: var(--card-bg);
+      transition: background-color 0.3s;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--table-header);
+    }
+
+    body.dark th, body.dark td {
+      border-color: #333;
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Nowhereville County Police Department</h1>
     <p>Official 10-Codes Reference</p>
+    <button id="darkModeToggle">Toggle Dark Mode</button>
   </header>
 
   <nav>
@@ -40,7 +167,7 @@
     <div class="search-filter">
       <input type="text" id="searchInput" placeholder="Search code or meaning...">
       <select id="categoryFilter">
-        <option value="">All Ctategories</option>
+        <option value="">All Categories</option>
         <option value="1-9">1-9</option>
         <option value="10-19">10-19</option>
         <option value="20-29">20-29</option>
@@ -116,7 +243,7 @@
       { code: "10-17", meaning: "Meet Complainant", category: "10-19" },
       { code: "10-18", meaning: "Quickly", category: "10-19" },
       { code: "10-19", meaning: "Return to ___", category: "10-19" },
-      // more codes blabla creditz to hakeri511
+      // Add more codes here
     ];
 
     const tbody = document.querySelector("#codesTable tbody");
@@ -147,6 +274,16 @@
     });
 
     renderTable();
+
+    // Dark mode
+    const toggleButton = document.getElementById("darkModeToggle");
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme === "dark") document.body.classList.add("dark");
+
+    toggleButton.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+    });
   </script>
 </body>
 </html>
