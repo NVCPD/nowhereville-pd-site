@@ -3,315 +3,235 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Case Files - Nowhereville County Police Department</title>
+  <title>Case Files - Nowhereville PD</title>
   <style>
-    :root {
-      --bg-light: #f9f9f9;
-      --bg-dark: #111827;
-      --card-light: #fff;
-      --card-dark: #1e1e1e;
-      --nav-light: #003b73;
-      --nav-dark: #1f1f2e;
-      --accent: #5865f2;
-      --text-light: #1a1a1a;
-      --text-dark: #f0f0f0;
-    }
-
     body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      color: #000;
       margin: 0;
-      font-family: Georgia, serif;
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-      transition: background 0.3s, color 0.3s;
+      transition: background-color 0.3s, color 0.3s;
     }
-    body.light {
-      background-color: var(--bg-light);
-      color: var(--text-light);
+    body.dark {
+      background-color: #121212;
+      color: #e0e0e0;
     }
-
-    header {
-      background-color: #0f172a;
+    header, footer {
+      background-color: #00274d;
       color: white;
       text-align: center;
-      padding: 30px 20px;
+      padding: 20px;
     }
-
     nav {
-      background-color: var(--nav-dark);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 12px;
-      position: relative;
-    }
-    body.light nav {
-      background-color: var(--nav-light);
+      background-color: #003366;
+      padding: 10px;
+      text-align: center;
     }
     nav a {
       color: white;
       margin: 0 15px;
-      font-weight: bold;
       text-decoration: none;
+      font-weight: bold;
     }
     nav a:hover {
       text-decoration: underline;
     }
-
-#darkToggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: transparent;
-  border: 2px solid #fff;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  z-index: 1000;
-}
-body.light #darkToggle {
-  border-color: #000;
-  color: #000;
-}
-
-
-    .content {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 30px;
-      background-color: var(--card-dark);
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      transition: background 0.3s;
-    }
-    body.light .content {
-      background-color: var(--card-light);
-    }
-
-    h2 {
-      color: #60a5fa;
-      margin-top: 0;
-      border-bottom: 2px solid #dcdcdc;
-      padding-bottom: 10px;
-    }
-    body.light h2 {
-      color: #002f5f;
-    }
-
-    .message-box {
-      display: none;
-      text-align: center;
-      padding: 12px;
-      margin-bottom: 20px;
-      border-radius: 6px;
-      background-color: #ffe4e4;
-      color: #a33;
-      border: 1px solid #a33;
-    }
-    body.light .message-box {
-      background-color: #feefc3;
-      color: #333;
-      border-color: #e6d700;
-    }
-
-    #loginForm, #logoutSection, #caseFilesSection {
-      margin-bottom: 20px;
-    }
-
-    input, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 6px;
-      border: none;
-      box-sizing: border-box;
-    }
-    input, textarea {
-      background-color: var(--card-light);
-      color: var(--text-light);
-    }
-    body:not(.light) input, body:not(.light) textarea {
-      background-color: #374151;
-      color: var(--text-dark);
-    }
-
-    button {
-      background-color: var(--accent);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #4752c4;
-    }
-
-    footer {
-      text-align: center;
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      background: white;
       padding: 20px;
-      background-color: #0f172a;
-      color: #d1d5db;
-      margin-top: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    body.dark .container {
+      background: #1c1c1c;
+      box-shadow: none;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #00274d;
+    }
+    body.dark h2 {
+      color: #87baff;
+    }
+    .top-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .top-controls input,
+    .top-controls select,
+    .top-controls button {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    body.dark .top-controls input,
+    body.dark .top-controls select,
+    body.dark .top-controls button {
+      background: #2a2a2a;
+      color: #eee;
+      border: 1px solid #555;
+    }
+    .message-box {
+      background-color: #ffdddd;
+      color: #a33;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #a33;
+      margin-bottom: 20px;
+      display: none;
+      border-radius: 6px;
+    }
+    .case-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 15px;
+      background: #fafafa;
+    }
+    body.dark .case-card {
+      border-color: #444;
+      background: #2a2a2a;
+    }
+    .case-card h3 {
+      margin-top: 0;
+    }
+    .case-card .meta {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    body.dark .case-card .meta {
+      color: #aaa;
     }
   </style>
 </head>
 <body>
   <header>
+    <img src="logo-placeholder.png" alt="NVCPD Logo" style="height: 80px;"><br>
     <h1>Nowhereville County Police Department</h1>
-    <p>Serving and Protecting the Citizens of Nowhereville</p>
+    <p>Serving and Protecting the Citizens of Nowhereville County</p>
   </header>
-<!-- dark mode toggle button, out of the nav -->
-<button id="darkToggle">Toggle Light</button>
 
-<nav>
-  <a href="index.html">Home</a>
-  <a href="about.html">About NVCPD</a>
-  <a href="roster.html">Officer Roster</a>
-  <a href="casefiles.html">Case Files</a>
-  <a href="10codes.html">10-Codes</a>
-  <a href="careers.html">Careers</a>
-</nav>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About NVCPD</a>
+    <a href="roster.html">Officer Roster</a>
+    <a href="casefiles.html">Case Files</a>
+    <a href="10codes.html">10-Codes</a>
+    <a href="careers.html">Careers</a>
+    <a href="javascript:void(0)" id="loginNav">Login</a>
+  </nav>
 
-
-  <div class="content">
-    <div id="loginMessage" class="message-box">Please log in via the Case Files page.</div>
-
+  <div class="container">
     <h2>Case Files</h2>
 
-    <div id="loginForm">
-      <h3>Admin Login</h3>
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
-      <button id="loginBtn">Login</button>
+    <div class="top-controls">
+      <div>
+        <input type="text" id="searchBox" placeholder="Search case title...">
+        <select id="categoryFilter">
+          <option value="all">All Categories</option>
+          <option value="Theft">Theft</option>
+          <option value="Assault">Assault</option>
+          <option value="Traffic">Traffic</option>
+        </select>
+      </div>
+      <button id="toggleDark">Toggle Dark Mode</button>
     </div>
 
-    <div id="logoutSection" style="display:none;">
-      <p>You are logged in.</p>
-      <button id="logoutBtn">Logout</button>
-    </div>
+    <div class="message-box" id="loginMessage">Please log in to manage case files.</div>
 
-    <div id="caseFilesSection" style="display:none;">
-      <h3>Submit New Case File</h3>
-      <form id="caseForm">
-        <input type="text" id="title" placeholder="Case Title" required>
-        <input type="text" id="officer" placeholder="Officer Name" required>
-        <label>Date & Time:</label>
-        <input type="date" id="date" required>
-        <input type="time" id="time" required>
-        <input type="text" id="category" placeholder="Category (e.g. Theft, Assault)" required>
-        <input type="text" id="tags" placeholder="Tags (comma-separated)" required>
-        <textarea id="description" placeholder="Case Description" rows="5" required></textarea>
-        <button type="submit">Submit Case</button>
-      </form>
-      <hr>
+    <div id="caseList">
+      <!-- Case file cards will be added here dynamically -->
     </div>
-
-    <h3>Published Case Files</h3>
-    <div id="caseFilesList"></div>
   </div>
 
   <footer>
-    &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, orderBy, getDocs, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, query, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    // 🔧 paste your firebaseConfig object here:
     const firebaseConfig = {
       apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
       authDomain: "nvcpd-database.firebaseapp.com",
       projectId: "nvcpd-database",
       storageBucket: "nvcpd-database.appspot.com",
       messagingSenderId: "111892634044",
-      appId: "…the-rest…"
+      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
     const db = getFirestore(app);
-
-    const ADMIN_EMAILS = ["admin511@nvcpd.com", "cameronm@nvcpd.gov", "shanek@nvcpd.gov"];
-    const loginForm = document.getElementById("loginForm");
-    const logoutSection = document.getElementById("logoutSection");
-    const caseFilesSection = document.getElementById("caseFilesSection");
+    const auth = getAuth(app);
+    const loginNav = document.getElementById("loginNav");
     const loginMessage = document.getElementById("loginMessage");
-    const darkToggle = document.getElementById("darkToggle");
 
-    // 🌙 Dark/light toggle
-    darkToggle.onclick = () => {
-      const light = document.body.classList.toggle("light");
-      darkToggle.textContent = light ? "Toggle Dark" : "Toggle Light";
+    const toggleDark = document.getElementById("toggleDark");
+    toggleDark.onclick = () => {
+      document.body.classList.toggle("dark");
     };
 
     onAuthStateChanged(auth, (user) => {
-      if (user && ADMIN_EMAILS.includes(user.email)) {
-        loginForm.style.display = "none";
-        logoutSection.style.display = "";
-        caseFilesSection.style.display = "";
+      if (user) {
+        loginNav.textContent = "Logout";
+        loginNav.onclick = () => signOut(auth).then(() => location.reload());
       } else {
-        loginForm.style.display = "";
-        logoutSection.style.display = "none";
-        caseFilesSection.style.display = "none";
+        loginNav.textContent = "Login";
+        loginNav.onclick = () => {
+          loginMessage.style.display = "block";
+          setTimeout(() => loginMessage.style.display = "none", 5000);
+        };
       }
     });
 
-    document.getElementById("loginBtn").onclick = async () => {
-      try {
-        await signInWithEmailAndPassword(auth,
-          email.value, password.value
-        );
-      } catch {
-        loginMessage.textContent = "Login failed.";
-        loginMessage.style.display = "block";
-        setTimeout(() => loginMessage.style.display = "none", 4000);
-      }
-    };
+    const searchBox = document.getElementById("searchBox");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const caseList = document.getElementById("caseList");
 
-    document.getElementById("logoutBtn").onclick = async () => {
-      await signOut(auth);
-      loginMessage.textContent = "Logged out";
-      loginMessage.style.display = "block";
-      setTimeout(() => loginMessage.style.display = "none", 4000);
-    };
+    async function loadCases() {
+      const q = query(collection(db, "casefiles"));
+      const querySnapshot = await getDocs(q);
+      const cases = [];
+      querySnapshot.forEach(doc => cases.push({ id: doc.id, ...doc.data() }));
+      displayCases(cases);
+    }
 
-    document.getElementById("caseForm").onsubmit = async (e) => {
-      e.preventDefault();
-      await addDoc(collection(db, "casefiles"), {
-        title: title.value,
-        officer: officer.value,
-        date: Timestamp.fromDate(new Date(`${date.value}T${time.value}`)),
-        category: category.value,
-        tags: tags.value.split(",").map(t => t.trim()),
-        description: description.value,
-        published: false
-      });
-      loadCaseFiles();
-    };
+    function displayCases(cases) {
+      const search = searchBox.value.toLowerCase();
+      const selectedCat = categoryFilter.value;
+      caseList.innerHTML = "";
 
-    async function loadCaseFiles() {
-      const listDiv = document.getElementById("caseFilesList");
-      listDiv.innerHTML = "";
-      const snapshot = await getDocs(query(collection(db, "casefiles"), orderBy("date", "desc")));
-      snapshot.forEach(docSnap => {
-        const d = docSnap.data();
-        if (!d.published) return;
-        const dateString = d.date.toDate().toLocaleString();
-        const div = document.createElement("div");
-        div.style = "background: #374151; padding: 15px; border-radius: 6px; margin-bottom: 15px;";
-        div.innerHTML = `<strong>Title:</strong> ${d.title}<br>
-          <strong>Officer:</strong> ${d.officer}<br>
-          <strong>Date:</strong> ${dateString}<br>
-          <strong>Category:</strong> ${d.category}<br>
-          <strong>Tags:</strong> ${d.tags.join(", ")}<br>
-          <strong>Description:</strong><pre>${d.description}</pre>`;
-        listDiv.appendChild(div);
+      cases.forEach(data => {
+        const matchesSearch = data.title.toLowerCase().includes(search);
+        const matchesCategory = selectedCat === "all" || data.category === selectedCat;
+
+        if (matchesSearch && matchesCategory) {
+          const div = document.createElement("div");
+          div.className = "case-card";
+          div.innerHTML = `
+            <h3>${data.title}</h3>
+            <p class="meta">Category: ${data.category} | Date: ${data.date}</p>
+            <p>${data.description}</p>
+          `;
+          caseList.appendChild(div);
+        }
       });
     }
 
-    onAuthStateChanged(auth, loadCaseFiles);
+    searchBox.addEventListener("input", () => loadCases());
+    categoryFilter.addEventListener("change", () => loadCases());
 
+    loadCases();
   </script>
 </body>
 </html>
