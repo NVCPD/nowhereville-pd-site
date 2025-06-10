@@ -3,33 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Case Files - Nowhereville PD</title>
+  <title>Case Files - Nowhereville County Police Department</title>
   <style>
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f4f4;
-      color: #000;
       margin: 0;
+      font-family: Georgia, serif;
+      background-color: #111827;
+      color: white;
       transition: background-color 0.3s, color 0.3s;
     }
     body.dark {
-      background-color: #121212;
-      color: #e0e0e0;
+      background-color: #111827;
+      color: white;
     }
     header, footer {
-      background-color: #00274d;
+      background-color: #0f172a;
       color: white;
       text-align: center;
       padding: 20px;
     }
     nav {
-      background-color: #003366;
+      background-color: #1e293b;
       padding: 10px;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
     nav a {
       color: white;
-      margin: 0 15px;
       text-decoration: none;
       font-weight: bold;
     }
@@ -37,24 +38,15 @@
       text-decoration: underline;
     }
     .container {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: auto;
-      background: white;
+      background-color: #1f2937;
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
-    body.dark .container {
-      background: #1c1c1c;
-      box-shadow: none;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #00274d;
-    }
-    body.dark h2 {
-      color: #87baff;
+    h2, h3 {
+      color: #60a5fa;
     }
     .top-controls {
       display: flex;
@@ -70,14 +62,29 @@
       padding: 8px 12px;
       font-size: 1rem;
       border-radius: 6px;
-      border: 1px solid #ccc;
+      border: 1px solid #4b5563;
+      background-color: #374151;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
-    body.dark .top-controls input,
-    body.dark .top-controls select,
-    body.dark .top-controls button {
-      background: #2a2a2a;
-      color: #eee;
-      border: 1px solid #555;
+    .top-controls input::placeholder {
+      color: #a1a1aa;
+    }
+    .top-controls input:focus,
+    .top-controls select:focus,
+    .top-controls button:focus {
+      outline: none;
+      border-color: #60a5fa;
+      background-color: #2563eb;
+    }
+    .top-controls button#toggleDark {
+      background-color: #2563eb;
+      border: none;
+      font-weight: bold;
+    }
+    .top-controls button#toggleDark:hover {
+      background-color: #1d4ed8;
     }
     .message-box {
       background-color: #ffdddd;
@@ -90,25 +97,21 @@
       border-radius: 6px;
     }
     .case-card {
-      border: 1px solid #ccc;
+      border: 1px solid #374151;
       border-radius: 8px;
       padding: 16px;
       margin-bottom: 15px;
-      background: #fafafa;
-    }
-    body.dark .case-card {
-      border-color: #444;
-      background: #2a2a2a;
+      background: #1e293b;
+      color: white;
+      transition: background-color 0.3s, border-color 0.3s;
     }
     .case-card h3 {
       margin-top: 0;
     }
     .case-card .meta {
       font-size: 0.9rem;
-      color: #555;
-    }
-    body.dark .case-card .meta {
-      color: #aaa;
+      color: #93c5fd;
+      margin-bottom: 10px;
     }
   </style>
 </head>
