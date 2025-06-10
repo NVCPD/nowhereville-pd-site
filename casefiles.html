@@ -57,16 +57,23 @@
       text-decoration: underline;
     }
 
-    #darkToggle {
-      position: absolute;
-      right: 20px;
-      padding: 6px 12px;
-      background: transparent;
-      border: 1px solid white;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+#darkToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: 2px solid #fff;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 1000;
+}
+body.light #darkToggle {
+  border-color: #000;
+  color: #000;
+}
+
 
     .content {
       max-width: 1000px;
@@ -152,16 +159,18 @@
     <h1>Nowhereville County Police Department</h1>
     <p>Serving and Protecting the Citizens of Nowhereville</p>
   </header>
+<!-- dark mode toggle button, out of the nav -->
+<button id="darkToggle">Toggle Light</button>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About NVCPD</a>
-    <a href="roster.html">Officer Roster</a>
-    <a href="casefiles.html">Case Files</a>
-    <a href="10codes.html">10-Codes</a>
-    <a href="careers.html">Careers</a>
-    <button id="darkToggle">Toggle Light</button>
-  </nav>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="about.html">About NVCPD</a>
+  <a href="roster.html">Officer Roster</a>
+  <a href="casefiles.html">Case Files</a>
+  <a href="10codes.html">10-Codes</a>
+  <a href="careers.html">Careers</a>
+</nav>
+
 
   <div class="content">
     <div id="loginMessage" class="message-box">Please log in via the Case Files page.</div>
