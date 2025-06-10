@@ -5,75 +5,145 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Case Files - Nowhereville County Police Department</title>
   <style>
+    :root {
+      --bg-light: #f9f9f9;
+      --bg-dark: #111827;
+      --card-light: #fff;
+      --card-dark: #1e1e1e;
+      --nav-light: #003b73;
+      --nav-dark: #1f1f2e;
+      --accent: #5865f2;
+      --text-light: #1a1a1a;
+      --text-dark: #f0f0f0;
+    }
+
     body {
       margin: 0;
       font-family: Georgia, serif;
-      background-color: #111827;
-      color: white;
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+      transition: background 0.3s, color 0.3s;
     }
+    body.light {
+      background-color: var(--bg-light);
+      color: var(--text-light);
+    }
+
     header {
       background-color: #0f172a;
       color: white;
-      padding: 20px;
       text-align: center;
+      padding: 30px 20px;
     }
+
     nav {
-      background-color: #1e293b;
-      padding: 10px;
+      background-color: var(--nav-dark);
       display: flex;
       justify-content: center;
-      gap: 20px;
+      align-items: center;
+      padding: 12px;
+      position: relative;
+    }
+    body.light nav {
+      background-color: var(--nav-light);
     }
     nav a {
       color: white;
-      text-decoration: none;
+      margin: 0 15px;
       font-weight: bold;
+      text-decoration: none;
     }
     nav a:hover {
       text-decoration: underline;
     }
-    .content {
-      padding: 20px;
-      max-width: 1000px;
-      margin: auto;
-      background-color: #1f2937;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-    footer {
-      text-align: center;
-      padding: 10px;
-      background-color: #0f172a;
-      color: #d1d5db;
-      font-size: 14px;
-      position: relative;
-      bottom: 0;
-      width: 100%;
-    }
-    #loginForm, #logoutButton {
-      margin-top: 20px;
-    }
-    .hidden {
-      display: none;
-    }
-    input, textarea, button {
-      background-color: #374151;
+
+    #darkToggle {
+      position: absolute;
+      right: 20px;
+      padding: 6px 12px;
+      background: transparent;
+      border: 1px solid white;
       color: white;
-      border: none;
-      padding: 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .content {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 30px;
+      background-color: var(--card-dark);
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+    body.light .content {
+      background-color: var(--card-light);
+    }
+
+    h2 {
+      color: #60a5fa;
+      margin-top: 0;
+      border-bottom: 2px solid #dcdcdc;
+      padding-bottom: 10px;
+    }
+    body.light h2 {
+      color: #002f5f;
+    }
+
+    .message-box {
+      display: none;
+      text-align: center;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      background-color: #ffe4e4;
+      color: #a33;
+      border: 1px solid #a33;
+    }
+    body.light .message-box {
+      background-color: #feefc3;
+      color: #333;
+      border-color: #e6d700;
+    }
+
+    #loginForm, #logoutSection, #caseFilesSection {
+      margin-bottom: 20px;
+    }
+
+    input, textarea, button {
       width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: none;
       box-sizing: border-box;
     }
+    input, textarea {
+      background-color: var(--card-light);
+      color: var(--text-light);
+    }
+    body:not(.light) input, body:not(.light) textarea {
+      background-color: #374151;
+      color: var(--text-dark);
+    }
+
     button {
-      background-color: #2563eb;
-      cursor: pointer;
+      background-color: var(--accent);
+      color: white;
       font-weight: bold;
+      cursor: pointer;
     }
     button:hover {
-      background-color: #1d4ed8;
+      background-color: #4752c4;
     }
-    pre {
-      white-space: pre-wrap;
-      word-wrap: break-word;
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #0f172a;
+      color: #d1d5db;
+      margin-top: 40px;
     }
   </style>
 </head>
@@ -82,6 +152,7 @@
     <h1>Nowhereville County Police Department</h1>
     <p>Serving and Protecting the Citizens of Nowhereville</p>
   </header>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About NVCPD</a>
@@ -89,37 +160,39 @@
     <a href="casefiles.html">Case Files</a>
     <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
+    <button id="darkToggle">Toggle Light</button>
   </nav>
 
   <div class="content">
+    <div id="loginMessage" class="message-box">Please log in via the Case Files page.</div>
+
     <h2>Case Files</h2>
 
     <div id="loginForm">
       <h3>Admin Login</h3>
-      <input type="email" id="email" placeholder="Email"><br><br>
-      <input type="password" id="password" placeholder="Password"><br><br>
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
       <button id="loginBtn">Login</button>
     </div>
 
-    <div id="logoutSection" class="hidden">
+    <div id="logoutSection" style="display:none;">
       <p>You are logged in.</p>
       <button id="logoutBtn">Logout</button>
     </div>
 
-    <div id="caseFilesSection" class="hidden">
+    <div id="caseFilesSection" style="display:none;">
       <h3>Submit New Case File</h3>
       <form id="caseForm">
-        <input type="text" id="title" placeholder="Case Title" required><br><br>
-        <input type="text" id="officer" placeholder="Officer Name" required><br><br>
-        <label>Date & Time:</label><br>
+        <input type="text" id="title" placeholder="Case Title" required>
+        <input type="text" id="officer" placeholder="Officer Name" required>
+        <label>Date & Time:</label>
         <input type="date" id="date" required>
-        <input type="time" id="time" required><br><br>
-        <input type="text" id="category" placeholder="Category (e.g. Theft, Assault)" required><br><br>
-        <input type="text" id="tags" placeholder="Tags (comma-separated)" required><br><br>
-        <textarea id="description" placeholder="Case Description" rows="5" required></textarea><br><br>
+        <input type="time" id="time" required>
+        <input type="text" id="category" placeholder="Category (e.g. Theft, Assault)" required>
+        <input type="text" id="tags" placeholder="Tags (comma-separated)" required>
+        <textarea id="description" placeholder="Case Description" rows="5" required></textarea>
         <button type="submit">Submit Case</button>
       </form>
-
       <hr>
     </div>
 
@@ -134,15 +207,16 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, orderBy, getDocs, Timestamp, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, query, orderBy, getDocs, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+    // 🔧 paste your firebaseConfig object here:
     const firebaseConfig = {
       apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
       authDomain: "nvcpd-database.firebaseapp.com",
       projectId: "nvcpd-database",
       storageBucket: "nvcpd-database.appspot.com",
       messagingSenderId: "111892634044",
-      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
+      appId: "…the-rest…"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -150,132 +224,85 @@
     const db = getFirestore(app);
 
     const ADMIN_EMAILS = ["admin511@nvcpd.com", "cameronm@nvcpd.gov", "shanek@nvcpd.gov"];
-
     const loginForm = document.getElementById("loginForm");
     const logoutSection = document.getElementById("logoutSection");
     const caseFilesSection = document.getElementById("caseFilesSection");
-    let isAdmin = false;
+    const loginMessage = document.getElementById("loginMessage");
+    const darkToggle = document.getElementById("darkToggle");
 
-    function updateUI(user) {
-      if (user && ADMIN_EMAILS.includes(user.email)) {
-        isAdmin = true;
-        loginForm.classList.add("hidden");
-        logoutSection.classList.remove("hidden");
-        caseFilesSection.classList.remove("hidden");
-      } else {
-        isAdmin = false;
-        loginForm.classList.remove("hidden");
-        logoutSection.classList.add("hidden");
-        caseFilesSection.classList.add("hidden");
-      }
-    }
-
-    document.getElementById("loginBtn").addEventListener("click", async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("Login successful");
-      } catch (error) {
-        alert("Login failed: " + error.message);
-      }
-    });
-
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-      await signOut(auth);
-      alert("Logged out");
-    });
+    // 🌙 Dark/light toggle
+    darkToggle.onclick = () => {
+      const light = document.body.classList.toggle("light");
+      darkToggle.textContent = light ? "Toggle Dark" : "Toggle Light";
+    };
 
     onAuthStateChanged(auth, (user) => {
-      updateUI(user);
-      loadCaseFiles();
-    });
-
-    document.getElementById("caseForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const title = document.getElementById("title").value;
-      const officer = document.getElementById("officer").value;
-      const description = document.getElementById("description").value;
-      const category = document.getElementById("category").value;
-      const tags = document.getElementById("tags").value.split(',').map(tag => tag.trim());
-      const dateInput = document.getElementById("date").value;
-      const timeInput = document.getElementById("time").value;
-
-      const fullDate = new Date(`${dateInput}T${timeInput}`);
-      const timestamp = Timestamp.fromDate(fullDate);
-
-      try {
-        await addDoc(collection(db, "casefiles"), {
-          title,
-          officer,
-          description,
-          date: timestamp,
-          category,
-          tags,
-          published: false
-        });
-        alert("Case file submitted!");
-        document.getElementById("caseForm").reset();
-        loadCaseFiles();
-      } catch (error) {
-        alert("Error submitting case file: " + error.message);
+      if (user && ADMIN_EMAILS.includes(user.email)) {
+        loginForm.style.display = "none";
+        logoutSection.style.display = "";
+        caseFilesSection.style.display = "";
+      } else {
+        loginForm.style.display = "";
+        logoutSection.style.display = "none";
+        caseFilesSection.style.display = "none";
       }
     });
+
+    document.getElementById("loginBtn").onclick = async () => {
+      try {
+        await signInWithEmailAndPassword(auth,
+          email.value, password.value
+        );
+      } catch {
+        loginMessage.textContent = "Login failed.";
+        loginMessage.style.display = "block";
+        setTimeout(() => loginMessage.style.display = "none", 4000);
+      }
+    };
+
+    document.getElementById("logoutBtn").onclick = async () => {
+      await signOut(auth);
+      loginMessage.textContent = "Logged out";
+      loginMessage.style.display = "block";
+      setTimeout(() => loginMessage.style.display = "none", 4000);
+    };
+
+    document.getElementById("caseForm").onsubmit = async (e) => {
+      e.preventDefault();
+      await addDoc(collection(db, "casefiles"), {
+        title: title.value,
+        officer: officer.value,
+        date: Timestamp.fromDate(new Date(`${date.value}T${time.value}`)),
+        category: category.value,
+        tags: tags.value.split(",").map(t => t.trim()),
+        description: description.value,
+        published: false
+      });
+      loadCaseFiles();
+    };
 
     async function loadCaseFiles() {
       const listDiv = document.getElementById("caseFilesList");
       listDiv.innerHTML = "";
-
-      const q = query(collection(db, "casefiles"), orderBy("date", "desc"));
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((docSnap) => {
-        const data = docSnap.data();
-        if (!data.published && !isAdmin) return;
-
-        const date = data.date?.toDate?.().toLocaleString() ?? "N/A";
-
-        const card = document.createElement("div");
-        card.style.border = "1px solid #334155";
-        card.style.padding = "10px";
-        card.style.margin = "10px 0";
-        card.style.backgroundColor = "#374151";
-
-        card.innerHTML = `
-          <strong>Title:</strong> ${data.title}<br>
-          <strong>Officer:</strong> ${data.officer}<br>
-          <strong>Date:</strong> ${date}<br>
-          <strong>Category:</strong> ${data.category}<br>
-          <strong>Tags:</strong> ${data.tags?.join(', ') ?? ''}<br>
-          <strong>Description:</strong><br>
-          <pre>${data.description}</pre>
-        `;
-
-        if (isAdmin) {
-          const publishBtn = document.createElement("button");
-          publishBtn.textContent = data.published ? "Unpublish" : "Publish";
-          publishBtn.onclick = async () => {
-            await updateDoc(doc(db, "casefiles", docSnap.id), { published: !data.published });
-            loadCaseFiles();
-          };
-
-          const deleteBtn = document.createElement("button");
-          deleteBtn.textContent = "Delete";
-          deleteBtn.style.marginLeft = "10px";
-          deleteBtn.onclick = async () => {
-            if (confirm("Are you sure you want to delete this case file?")) {
-              await deleteDoc(doc(db, "casefiles", docSnap.id));
-              loadCaseFiles();
-            }
-          };
-
-          card.appendChild(publishBtn);
-          card.appendChild(deleteBtn);
-        }
-
-        listDiv.appendChild(card);
+      const snapshot = await getDocs(query(collection(db, "casefiles"), orderBy("date", "desc")));
+      snapshot.forEach(docSnap => {
+        const d = docSnap.data();
+        if (!d.published) return;
+        const dateString = d.date.toDate().toLocaleString();
+        const div = document.createElement("div");
+        div.style = "background: #374151; padding: 15px; border-radius: 6px; margin-bottom: 15px;";
+        div.innerHTML = `<strong>Title:</strong> ${d.title}<br>
+          <strong>Officer:</strong> ${d.officer}<br>
+          <strong>Date:</strong> ${dateString}<br>
+          <strong>Category:</strong> ${d.category}<br>
+          <strong>Tags:</strong> ${d.tags.join(", ")}<br>
+          <strong>Description:</strong><pre>${d.description}</pre>`;
+        listDiv.appendChild(div);
       });
     }
+
+    onAuthStateChanged(auth, loadCaseFiles);
+
   </script>
 </body>
 </html>
