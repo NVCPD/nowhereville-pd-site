@@ -2,49 +2,78 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Case Files - Nowhereville PD</title>
   <style>
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f5f5;
-      color: #222;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
       margin: 0;
-      padding: 0;
     }
-    header, nav, footer {
-      background-color: #003366;
+    header, footer {
+      background-color: #00274d;
       color: white;
       text-align: center;
-      padding: 15px;
-    }
-    nav a { color: white; margin: 0 10px; text-decoration: none; }
-    nav a:hover { text-decoration: underline; }
-    .container {
-      max-width: 1000px;
-      margin: 30px auto;
       padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h2 { text-align: center; }
-    #caseForm { display: none; margin-top: 20px; }
-    label, select, input, textarea, button {
-      display: block; width: 100%; margin-bottom: 15px;
+    nav {
+      background-color: #003366;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+    .form-container {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    .form-container select,
+    .form-container input,
+    .form-container textarea,
+    .form-container button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #2a2a2a;
+      color: white;
+      border: 1px solid #555;
+      border-radius: 6px;
     }
     .case-card {
-      background: #f0f0f0; padding: 15px; margin-bottom: 15px;
-      border-radius: 6px; position: relative;
+      border: 1px solid #444;
+      background: #1f1f1f;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
     }
-    .edit-delete {
-      margin-top: 10px;
+    .case-card .meta {
+      font-size: 0.9rem;
+      color: #bbb;
     }
-    .edit-delete button { margin-right: 10px; }
-    #loginForm { margin: 20px 0; text-align: center; }
-    #loginForm input { padding: 10px; margin: 5px; width: 200px; }
-    #loginForm button { padding: 10px 20px; }
-    #showFormBtn { margin-bottom: 20px; display: none; }
+    .delete-button {
+      background: #b91c1c;
+      border: none;
+      color: white;
+      padding: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -52,120 +81,94 @@
     <h1>Nowhereville County Police Department</h1>
     <p>Serving and Protecting the Citizens of Nowhereville County</p>
   </header>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About NVCPD</a>
     <a href="roster.html">Officer Roster</a>
     <a href="casefiles.html">Case Files</a>
-    <a href="10codes.html">10‑Codes</a>
+    <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
+    <a href="#" id="loginNav">Login</a>
   </nav>
 
   <div class="container">
-    <h2>Case Files</h2>
-
-    <div id="loginForm">
-      <input type="email" id="email" placeholder="Admin Email">
-      <input type="password" id="password" placeholder="Password">
-      <button id="loginBtn">Login</button>
-    </div>
-
-    <button id="logoutBtn" style="display:none;">Logout</button>
-
-    <button id="showFormBtn">Create Case File</button>
-
-    <form id="caseForm">
-      <label>Case Type:</label>
+    <div id="adminForm" class="form-container" style="display:none;">
+      <h2>Create Case File</h2>
       <select id="caseType">
         <option value="officer">Officer Related</option>
-        <option value="reported">Reported by Civilian</option>
+        <option value="public">Reported by People</option>
       </select>
-
-      <input type="text" id="caseNumber" placeholder="Case Number" required>
-      <input type="text" id="charge" placeholder="Charge / Complaint (optional)">
-      <input type="datetime-local" id="caseDate" required>
-      <input type="text" id="personName" placeholder="Officer or Reporting Person Name" required>
-      <input type="text" id="involved" placeholder="Involved / Suspects">
+      <input type="text" id="caseNumber" placeholder="Case Number">
+      <input type="text" id="charge" placeholder="Charge or Claim">
+      <input type="text" id="date" placeholder="Date (DD_MM_YYYY_TIME)">
+      <input type="text" id="mainName" placeholder="Officer or Reporting Person Name">
+      <input type="text" id="involved" placeholder="Involved People/Suspects">
       <input type="text" id="location" placeholder="Location">
-      <textarea id="description" placeholder="Detailed Description" required></textarea>
-
-      <button type="submit">Submit Case File</button>
-    </form>
+      <textarea id="description" placeholder="Description"></textarea>
+      <button id="submitCase">Submit Case File</button>
+    </div>
 
     <div id="caseList"></div>
   </div>
 
   <footer>
-    &copy; 2025 Nowhereville County Police Department
+    &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, deleteDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk", authDomain: "nvcpd-database.firebaseapp.com", projectId: "nvcpd-database", storageBucket: "nvcpd-database.appspot.com",
-      messagingSenderId: "111892634044", appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
+      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
+      authDomain: "nvcpd-database.firebaseapp.com",
+      projectId: "nvcpd-database",
+      storageBucket: "nvcpd-database.appspot.com",
+      messagingSenderId: "111892634044",
+      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
     };
-    
+
+    const adminEmails = ["nvcpd.pr@gmail.com", "anotheradmin@example.com"];
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
-    const ADMIN_EMAIL = "admin511@nvcpd.com", "cameronm@nvcpd.gov";
 
-    const loginForm = document.getElementById("loginForm");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const showFormBtn = document.getElementById("showFormBtn");
-    const caseForm = document.getElementById("caseForm");
+    const loginNav = document.getElementById("loginNav");
+    const adminForm = document.getElementById("adminForm");
+    const submitCase = document.getElementById("submitCase");
     const caseList = document.getElementById("caseList");
 
-    let isAdmin = false;
+    let currentUser = null;
 
     onAuthStateChanged(auth, (user) => {
-      if (user && user.email === ADMIN_EMAIL) {
-        isAdmin = true;
-        loginForm.style.display = "none";
-        logoutBtn.style.display = "inline-block";
-        showFormBtn.style.display = "block";
+      if (user) {
+        currentUser = user;
+        loginNav.textContent = "Logout";
+        loginNav.onclick = () => signOut(auth).then(() => location.reload());
+
+        if (adminEmails.includes(user.email)) {
+          adminForm.style.display = "block";
+        }
       } else {
-        isAdmin = false;
-        loginForm.style.display = "block";
-        logoutBtn.style.display = "none";
-        showFormBtn.style.display = "none";
-        caseForm.style.display = "none";
+        loginNav.textContent = "Login";
+        loginNav.onclick = () => signInWithPopup(auth, new GoogleAuthProvider());
       }
-      loadCases();
     });
 
-    document.getElementById("loginBtn").onclick = async () => {
-      try {
-        await signInWithEmailAndPassword(auth, email.value, password.value);
-      } catch (e) {
-        alert("Login failed: " + e.message);
-      }
-    };
-
-    logoutBtn.onclick = () => signOut(auth);
-
-    showFormBtn.onclick = () => {
-      caseForm.style.display = caseForm.style.display === "block" ? "none" : "block";
-    };
-
-    caseForm.onsubmit = async (e) => {
-      e.preventDefault();
-      await addDoc(collection(db, "casefiles"), {
-        type: caseType.value,
-        caseNumber: caseNumber.value,
-        charge: charge.value,
-        date: caseDate.value,
-        person: personName.value,
-        involved: involved.value,
-        location: location.value,
-        description: description.value
-      });
-      caseForm.reset();
-      caseForm.style.display = "none";
+    submitCase.onclick = async () => {
+      const data = {
+        type: document.getElementById("caseType").value,
+        caseNumber: document.getElementById("caseNumber").value,
+        charge: document.getElementById("charge").value,
+        date: document.getElementById("date").value,
+        mainName: document.getElementById("mainName").value,
+        involved: document.getElementById("involved").value,
+        location: document.getElementById("location").value,
+        description: document.getElementById("description").value
+      };
+      await addDoc(collection(db, "casefiles"), data);
       loadCases();
     };
 
@@ -173,45 +176,31 @@
       caseList.innerHTML = "";
       const snapshot = await getDocs(collection(db, "casefiles"));
       snapshot.forEach(docSnap => {
-        const c = docSnap.data();
+        const data = docSnap.data();
         const div = document.createElement("div");
         div.className = "case-card";
         div.innerHTML = `
-          <h3>${c.type === "officer" ? "Officer Related" : "Civilian Report"}</h3>
-          <p><strong>Case #:</strong> ${c.caseNumber}</p>
-          <p><strong>Charge/Claim:</strong> ${c.charge}</p>
-          <p><strong>Date:</strong> ${new Date(c.date).toLocaleString()}</p>
-          <p><strong>Person:</strong> ${c.person}</p>
-          <p><strong>Involved/Suspects:</strong> ${c.involved}</p>
-          <p><strong>Location:</strong> ${c.location}</p>
-          <p>${c.description}</p>
+          <h3>${data.caseNumber} - ${data.charge}</h3>
+          <p class="meta">${data.date} | ${data.location}</p>
+          <p><strong>${data.type === "officer" ? "Officer" : "Reporter"}:</strong> ${data.mainName}</p>
+          <p><strong>Involved:</strong> ${data.involved}</p>
+          <p>${data.description}</p>
         `;
-        if (isAdmin) {
-          const ctrl = document.createElement("div");
-          ctrl.className = "edit-delete";
-          const del = document.createElement("button");
-          del.textContent = "Delete";
-          del.onclick = async () => { 
-            if (confirm("Delete this case?")) {
-              await deleteDoc(doc(db, "casefiles", docSnap.id));
-              loadCases();
-            }
+        if (currentUser && adminEmails.includes(currentUser.email)) {
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "Delete";
+          delBtn.className = "delete-button";
+          delBtn.onclick = async () => {
+            await deleteDoc(doc(db, "casefiles", docSnap.id));
+            loadCases();
           };
-          const edit = document.createElement("button");
-          edit.textContent = "Edit";
-          edit.onclick = async () => {
-            const newDesc = prompt("Update description:", c.description);
-            if (newDesc !== null) {
-              await updateDoc(doc(db, "casefiles", docSnap.id), { description: newDesc });
-              loadCases();
-            }
-          };
-          ctrl.append(edit, del);
-          div.appendChild(ctrl);
+          div.appendChild(delBtn);
         }
         caseList.appendChild(div);
       });
     }
+
+    loadCases();
   </script>
 </body>
 </html>
