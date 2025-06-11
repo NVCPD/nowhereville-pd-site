@@ -13,29 +13,24 @@
       padding: 0;
       transition: background-color 0.3s, color 0.3s;
     }
-
     body.dark {
       background-color: #121212;
       color: #e0e0e0;
     }
-
     header, nav, footer {
       background-color: #003366;
       color: white;
       text-align: center;
       padding: 15px;
     }
-
     nav a {
       margin: 0 10px;
       color: white;
       text-decoration: none;
     }
-
     nav a:hover {
       text-decoration: underline;
     }
-
     .container {
       max-width: 1000px;
       margin: 30px auto;
@@ -44,24 +39,20 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     body.dark .container {
       background-color: #1e1e1e;
     }
-
     h2 {
       text-align: center;
       margin-bottom: 30px;
     }
-
     .top-controls {
       display: flex;
-      justify-content: space-between;
       flex-wrap: wrap;
+      justify-content: space-between;
       margin-bottom: 20px;
       gap: 10px;
     }
-
     .top-controls input,
     .top-controls select,
     .top-controls button {
@@ -70,7 +61,6 @@
       border-radius: 6px;
       font-size: 1rem;
     }
-
     body.dark .top-controls input,
     body.dark .top-controls select,
     body.dark .top-controls button {
@@ -78,7 +68,6 @@
       color: #fff;
       border-color: #444;
     }
-
     .case-card {
       border: 1px solid #ccc;
       border-radius: 6px;
@@ -86,25 +75,20 @@
       margin-bottom: 15px;
       background-color: #fafafa;
     }
-
     body.dark .case-card {
       background-color: #2a2a2a;
       border-color: #444;
     }
-
     .case-card h3 {
       margin-top: 0;
     }
-
     .meta {
       font-size: 0.9rem;
       color: #666;
     }
-
     body.dark .meta {
       color: #aaa;
     }
-
     .message-box {
       background-color: #ffdddd;
       color: #a33;
@@ -135,10 +119,9 @@
 
   <div class="container">
     <h2>Case Files</h2>
-
     <div class="top-controls">
       <div>
-        <input type="text" id="searchBox" placeholder="Search by title">
+        <input type="text" id="searchBox" placeholder="Search by title or tag">
         <select id="categoryFilter">
           <option value="all">All Categories</option>
           <option value="Theft">Theft</option>
@@ -160,7 +143,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, query, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signOut, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
@@ -174,13 +157,13 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
     const loginNav = document.getElementById("loginNav");
     const loginMessage = document.getElementById("loginMessage");
-
     const toggleDark = document.getElementById("toggleDark");
-    toggleDark.onclick = () => {
-      document.body.classList.toggle("dark");
-    };
+
+    toggleDark.onclick = () => document.body.classList.toggle("dark");
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -189,8 +172,10 @@
       } else {
         loginNav.textContent = "Login";
         loginNav.onclick = () => {
-          loginMessage.style.display = "block";
-          setTimeout(() => loginMessage.style.display = "none", 5000);
+          signInWithPopup(auth, provider).catch(() => {
+            loginMessage.style.display = "block";
+            setTimeout(() => loginMessage.style.display = "none", 5000);
+          });
         };
       }
     });
@@ -213,7 +198,9 @@
       caseList.innerHTML = "";
 
       cases.forEach(data => {
-        const matchesSearch = data.title.toLowerCase().includes(search);
+        const matchesSearch =
+          data.title.toLowerCase().includes(search) ||
+          (data.tags && data.tags.some(tag => tag.toLowerCase().includes(search)));
         const matchesCategory = selectedCat === "all" || data.category === selectedCat;
 
         if (matchesSearch && matchesCategory) {
@@ -222,6 +209,7 @@
           div.innerHTML = `
             <h3>${data.title}</h3>
             <p class="meta">Category: ${data.category} | Date: ${data.date}</p>
+            <p>Tags: ${data.tags ? data.tags.join(", ") : "None"}</p>
             <p>${data.description}</p>
           `;
           caseList.appendChild(div);
@@ -229,8 +217,8 @@
       });
     }
 
-    searchBox.addEventListener("input", () => loadCases());
-    categoryFilter.addEventListener("change", () => loadCases());
+    searchBox.addEventListener("input", loadCases);
+    categoryFilter.addEventListener("change", loadCases);
 
     loadCases();
   </script>
