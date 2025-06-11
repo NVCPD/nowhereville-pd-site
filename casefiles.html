@@ -3,89 +3,108 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Case Files - Nowhereville County Police Department</title>
+  <title>Case Files - Nowhereville PD</title>
   <style>
     body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      color: #222;
       margin: 0;
-      font-family: Georgia, serif;
-      background-color: #111827;
-      color: white;
+      padding: 0;
       transition: background-color 0.3s, color 0.3s;
     }
+
     body.dark {
-      background-color: #111827;
-      color: white;
+      background-color: #121212;
+      color: #e0e0e0;
     }
-    header, footer {
-      background-color: #0f172a;
+
+    header, nav, footer {
+      background-color: #003366;
       color: white;
       text-align: center;
-      padding: 20px;
+      padding: 15px;
     }
-    nav {
-      background-color: #1e293b;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
+
     nav a {
+      margin: 0 10px;
       color: white;
       text-decoration: none;
-      font-weight: bold;
     }
+
     nav a:hover {
       text-decoration: underline;
     }
+
     .container {
       max-width: 1000px;
-      margin: auto;
-      background-color: #1f2937;
+      margin: 30px auto;
       padding: 20px;
+      background-color: white;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h2, h3 {
-      color: #60a5fa;
+
+    body.dark .container {
+      background-color: #1e1e1e;
     }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
     .top-controls {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
       justify-content: space-between;
-      align-items: center;
+      flex-wrap: wrap;
       margin-bottom: 20px;
+      gap: 10px;
     }
+
     .top-controls input,
     .top-controls select,
     .top-controls button {
-      padding: 8px 12px;
-      font-size: 1rem;
+      padding: 10px;
+      border: 1px solid #ccc;
       border-radius: 6px;
-      border: 1px solid #4b5563;
-      background-color: #374151;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s;
+      font-size: 1rem;
     }
-    .top-controls input::placeholder {
-      color: #a1a1aa;
+
+    body.dark .top-controls input,
+    body.dark .top-controls select,
+    body.dark .top-controls button {
+      background-color: #2a2a2a;
+      color: #fff;
+      border-color: #444;
     }
-    .top-controls input:focus,
-    .top-controls select:focus,
-    .top-controls button:focus {
-      outline: none;
-      border-color: #60a5fa;
-      background-color: #2563eb;
+
+    .case-card {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background-color: #fafafa;
     }
-    .top-controls button#toggleDark {
-      background-color: #2563eb;
-      border: none;
-      font-weight: bold;
+
+    body.dark .case-card {
+      background-color: #2a2a2a;
+      border-color: #444;
     }
-    .top-controls button#toggleDark:hover {
-      background-color: #1d4ed8;
+
+    .case-card h3 {
+      margin-top: 0;
     }
+
+    .meta {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    body.dark .meta {
+      color: #aaa;
+    }
+
     .message-box {
       background-color: #ffdddd;
       color: #a33;
@@ -96,28 +115,10 @@
       display: none;
       border-radius: 6px;
     }
-    .case-card {
-      border: 1px solid #374151;
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 15px;
-      background: #1e293b;
-      color: white;
-      transition: background-color 0.3s, border-color 0.3s;
-    }
-    .case-card h3 {
-      margin-top: 0;
-    }
-    .case-card .meta {
-      font-size: 0.9rem;
-      color: #93c5fd;
-      margin-bottom: 10px;
-    }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo-placeholder.png" alt="NVCPD Logo" style="height: 80px;"><br>
     <h1>Nowhereville County Police Department</h1>
     <p>Serving and Protecting the Citizens of Nowhereville County</p>
   </header>
@@ -129,7 +130,7 @@
     <a href="casefiles.html">Case Files</a>
     <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
-    <a href="javascript:void(0)" id="loginNav">Login</a>
+    <a href="#" id="loginNav">Login</a>
   </nav>
 
   <div class="container">
@@ -137,7 +138,7 @@
 
     <div class="top-controls">
       <div>
-        <input type="text" id="searchBox" placeholder="Search case title...">
+        <input type="text" id="searchBox" placeholder="Search by title">
         <select id="categoryFilter">
           <option value="all">All Categories</option>
           <option value="Theft">Theft</option>
@@ -149,14 +150,11 @@
     </div>
 
     <div class="message-box" id="loginMessage">Please log in to manage case files.</div>
-
-    <div id="caseList">
-      <!-- Case file cards will be added here dynamically -->
-    </div>
+    <div id="caseList"></div>
   </div>
 
   <footer>
-    &copy; 2025 Nowhereville County Police Department. All rights reserved.
+    &copy; 2025 Nowhereville County Police Department
   </footer>
 
   <script type="module">
