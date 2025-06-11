@@ -85,6 +85,7 @@
       padding: 15px;
       margin-bottom: 15px;
       background-color: #fafafa;
+      position: relative;
     }
 
     body.dark .case-card {
@@ -105,21 +106,29 @@
       color: #aaa;
     }
 
-    .login-section {
-      margin: 20px 0;
-      text-align: center;
-    }
-
-    .login-section input {
+    .message-box {
+      background-color: #ffdddd;
+      color: #a33;
       padding: 10px;
-      margin: 5px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+      text-align: center;
+      border: 1px solid #a33;
+      margin-bottom: 20px;
+      display: none;
+      border-radius: 6px;
     }
 
-    .login-section button {
-      padding: 10px 20px;
-      margin-top: 10px;
+    .admin-controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 5px;
+    }
+
+    .admin-controls button {
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -136,17 +145,11 @@
     <a href="casefiles.html">Case Files</a>
     <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
-    <span id="authNav"></span>
+    <a href="#" id="loginNav">Login</a>
   </nav>
 
   <div class="container">
     <h2>Case Files</h2>
-
-    <div class="login-section" id="loginForm">
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
-      <button id="loginBtn">Login</button>
-    </div>
 
     <div class="top-controls">
       <div>
@@ -161,6 +164,15 @@
       <button id="toggleDark">Toggle Dark Mode</button>
     </div>
 
+    <div class="message-box" id="loginMessage">Please log in to manage case files.</div>
+
+    <form id="caseForm" style="display: none; margin-bottom: 20px;">
+      <input type="text" id="caseTitle" placeholder="Case Title" required>
+      <input type="text" id="caseCategory" placeholder="Category (e.g. Theft)" required>
+      <textarea id="caseDescription" placeholder="Case Description" required></textarea>
+      <button type="submit">Add Case File</button>
+    </form>
+
     <div id="caseList"></div>
   </div>
 
@@ -170,8 +182,8 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, query, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
@@ -186,44 +198,68 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    const authNav = document.getElementById("authNav");
-    const loginForm = document.getElementById("loginForm");
+    const ADMIN_EMAIL = "admin511@nvcpd.com";
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        authNav.innerHTML = '<a href="#" id="logoutLink">Logout</a>';
-        document.getElementById("logoutLink").onclick = () => signOut(auth).then(() => location.reload());
-        loginForm.style.display = "none";
-      } else {
-        authNav.innerHTML = '';
-        loginForm.style.display = "block";
-      }
-    });
+    const loginNav = document.getElementById("loginNav");
+    const loginMessage = document.getElementById("loginMessage");
+    const caseForm = document.getElementById("caseForm");
+    const caseList = document.getElementById("caseList");
+    const searchBox = document.getElementById("searchBox");
+    const categoryFilter = document.getElementById("categoryFilter");
 
-    document.getElementById("loginBtn").addEventListener("click", async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        location.reload();
-      } catch (err) {
-        alert("Login failed: " + err.message);
-      }
-    });
-
-    document.getElementById("toggleDark").onclick = () => {
+    const toggleDark = document.getElementById("toggleDark");
+    toggleDark.onclick = () => {
       document.body.classList.toggle("dark");
     };
 
-    const searchBox = document.getElementById("searchBox");
-    const categoryFilter = document.getElementById("categoryFilter");
-    const caseList = document.getElementById("caseList");
+    let currentUser = null;
+
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      if (user && user.email === ADMIN_EMAIL) {
+        loginNav.textContent = "Logout";
+        loginNav.onclick = () => signOut(auth).then(() => location.reload());
+        caseForm.style.display = "block";
+      } else {
+        loginNav.textContent = "Login";
+        loginNav.onclick = async () => {
+          const email = prompt("Enter admin email:");
+          const password = prompt("Enter password:");
+          try {
+            await signInWithEmailAndPassword(auth, email, password);
+          } catch (err) {
+            alert("Login failed: " + err.message);
+          }
+        };
+        caseForm.style.display = "none";
+      }
+      loadCases();
+    });
+
+    document.getElementById("caseForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const title = document.getElementById("caseTitle").value;
+      const category = document.getElementById("caseCategory").value;
+      const description = document.getElementById("caseDescription").value;
+
+      try {
+        await addDoc(collection(db, "casefiles"), {
+          title,
+          category,
+          description
+        });
+        alert("Case file added.");
+        e.target.reset();
+        loadCases();
+      } catch (err) {
+        alert("Error adding case: " + err.message);
+      }
+    });
 
     async function loadCases() {
       const q = query(collection(db, "casefiles"));
-      const querySnapshot = await getDocs(q);
-      const cases = [];
-      querySnapshot.forEach(doc => cases.push({ id: doc.id, ...doc.data() }));
+      const snapshot = await getDocs(q);
+      const cases = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       displayCases(cases);
     }
 
@@ -241,9 +277,25 @@
           div.className = "case-card";
           div.innerHTML = `
             <h3>${data.title}</h3>
-            <p class="meta">Category: ${data.category} | Date: ${data.date}</p>
+            <p class="meta">Category: ${data.category}</p>
             <p>${data.description}</p>
           `;
+
+          if (currentUser && currentUser.email === ADMIN_EMAIL) {
+            const controls = document.createElement("div");
+            controls.className = "admin-controls";
+            const delBtn = document.createElement("button");
+            delBtn.textContent = "Delete";
+            delBtn.onclick = async () => {
+              if (confirm("Delete this case file?")) {
+                await deleteDoc(doc(db, "casefiles", data.id));
+                loadCases();
+              }
+            };
+            controls.appendChild(delBtn);
+            div.appendChild(controls);
+          }
+
           caseList.appendChild(div);
         }
       });
@@ -251,8 +303,6 @@
 
     searchBox.addEventListener("input", () => loadCases());
     categoryFilter.addEventListener("change", () => loadCases());
-
-    loadCases();
   </script>
 </body>
 </html>
