@@ -11,179 +11,82 @@
       color: #222;
       margin: 0;
       padding: 0;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    body.dark {
-      background-color: #121212;
-      color: #e0e0e0;
-    }
-
-    header, nav, footer {
-      background-color: #003366;
-      color: white;
-      text-align: center;
-      padding: 15px;
-    }
-
-    nav a {
-      margin: 0 10px;
-      color: white;
-      text-decoration: none;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
     }
 
     .container {
       max-width: 1000px;
       margin: 30px auto;
       padding: 20px;
-      background-color: white;
+      background: white;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    body.dark .container {
-      background-color: #1e1e1e;
-    }
-
     h2 {
       text-align: center;
-      margin-bottom: 30px;
     }
 
-    .top-controls {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-      gap: 10px;
-    }
-
-    .top-controls input,
-    .top-controls select,
-    .top-controls button {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
-    body.dark .top-controls input,
-    body.dark .top-controls select,
-    body.dark .top-controls button {
-      background-color: #2a2a2a;
-      color: #fff;
-      border-color: #444;
-    }
-
-    .case-card {
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 15px;
-      margin-bottom: 15px;
-      background-color: #fafafa;
-      position: relative;
-    }
-
-    body.dark .case-card {
-      background-color: #2a2a2a;
-      border-color: #444;
-    }
-
-    .case-card h3 {
-      margin-top: 0;
-    }
-
-    .meta {
-      font-size: 0.9rem;
-      color: #666;
-    }
-
-    body.dark .meta {
-      color: #aaa;
-    }
-
-    .message-box {
-      background-color: #ffdddd;
-      color: #a33;
-      padding: 10px;
-      text-align: center;
-      border: 1px solid #a33;
-      margin-bottom: 20px;
+    form {
       display: none;
-      border-radius: 6px;
+      margin-top: 20px;
+    }
+
+    label, select, input, textarea, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
     }
 
     .admin-controls {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 5px;
+      display: none;
     }
 
-    .admin-controls button {
-      padding: 5px 10px;
-      font-size: 0.8rem;
-      cursor: pointer;
+    .case-card {
+      background: #f0f0f0;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+    }
+
+    .edit-delete {
+      margin-top: 10px;
+    }
+
+    .edit-delete button {
+      margin-right: 10px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Nowhereville County Police Department</h1>
-    <p>Serving and Protecting the Citizens of Nowhereville County</p>
-  </header>
-
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="about.html">About NVCPD</a>
-    <a href="roster.html">Officer Roster</a>
-    <a href="casefiles.html">Case Files</a>
-    <a href="10codes.html">10-Codes</a>
-    <a href="careers.html">Careers</a>
-    <a href="#" id="loginNav">Login</a>
-  </nav>
-
   <div class="container">
     <h2>Case Files</h2>
 
-    <div class="top-controls">
-      <div>
-        <input type="text" id="searchBox" placeholder="Search by title">
-        <select id="categoryFilter">
-          <option value="all">All Categories</option>
-          <option value="Theft">Theft</option>
-          <option value="Assault">Assault</option>
-          <option value="Traffic">Traffic</option>
-        </select>
-      </div>
-      <button id="toggleDark">Toggle Dark Mode</button>
-    </div>
+    <button id="showFormBtn" style="display:none;">Create Case File</button>
 
-    <div class="message-box" id="loginMessage">Please log in to manage case files.</div>
+    <form id="caseForm">
+      <select id="caseType">
+        <option value="officer">Officer Related</option>
+        <option value="reported">Reported by Civilian</option>
+      </select>
 
-    <form id="caseForm" style="display: none; margin-bottom: 20px;">
-      <input type="text" id="caseTitle" placeholder="Case Title" required>
-      <input type="text" id="caseCategory" placeholder="Category (e.g. Theft)" required>
-      <textarea id="caseDescription" placeholder="Case Description" required></textarea>
-      <button type="submit">Add Case File</button>
+      <input type="text" id="caseNumber" placeholder="Case Number" required>
+      <input type="text" id="charge" placeholder="Charge or Complaint">
+      <input type="datetime-local" id="caseDate">
+      <input type="text" id="personName" placeholder="Officer or Reporting Person Name">
+      <input type="text" id="involved" placeholder="Involved or Suspect(s)">
+      <input type="text" id="location" placeholder="Location">
+      <textarea id="description" placeholder="Case Description"></textarea>
+
+      <button type="submit">Submit Case File</button>
     </form>
 
     <div id="caseList"></div>
   </div>
 
-  <footer>
-    &copy; 2025 Nowhereville County Police Department
-  </footer>
-
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
@@ -198,111 +101,90 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    const ADMIN_EMAIL = "admin511@nvcpd.com";
-
-    const loginNav = document.getElementById("loginNav");
-    const loginMessage = document.getElementById("loginMessage");
-    const caseForm = document.getElementById("caseForm");
+    const form = document.getElementById("caseForm");
+    const showFormBtn = document.getElementById("showFormBtn");
     const caseList = document.getElementById("caseList");
-    const searchBox = document.getElementById("searchBox");
-    const categoryFilter = document.getElementById("categoryFilter");
-
-    const toggleDark = document.getElementById("toggleDark");
-    toggleDark.onclick = () => {
-      document.body.classList.toggle("dark");
-    };
 
     let currentUser = null;
+    let isAdmin = false;
 
     onAuthStateChanged(auth, (user) => {
-      currentUser = user;
-      if (user && user.email === ADMIN_EMAIL) {
-        loginNav.textContent = "Logout";
-        loginNav.onclick = () => signOut(auth).then(() => location.reload());
-        caseForm.style.display = "block";
-      } else {
-        loginNav.textContent = "Login";
-        loginNav.onclick = async () => {
-          const email = prompt("Enter admin email:");
-          const password = prompt("Enter password:");
-          try {
-            await signInWithEmailAndPassword(auth, email, password);
-          } catch (err) {
-            alert("Login failed: " + err.message);
-          }
-        };
-        caseForm.style.display = "none";
-      }
-      loadCases();
-    });
-
-    document.getElementById("caseForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const title = document.getElementById("caseTitle").value;
-      const category = document.getElementById("caseCategory").value;
-      const description = document.getElementById("caseDescription").value;
-
-      try {
-        await addDoc(collection(db, "casefiles"), {
-          title,
-          category,
-          description
-        });
-        alert("Case file added.");
-        e.target.reset();
+      if (user) {
+        currentUser = user;
+        isAdmin = user.email.endsWith("@nvcpd.pr") || user.email === "admin@nvcpd.pr";
+        if (isAdmin) showFormBtn.style.display = "block";
         loadCases();
-      } catch (err) {
-        alert("Error adding case: " + err.message);
       }
     });
+
+    showFormBtn.onclick = () => {
+      form.style.display = form.style.display === "block" ? "none" : "block";
+    };
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const newCase = {
+        type: document.getElementById("caseType").value,
+        caseNumber: document.getElementById("caseNumber").value,
+        charge: document.getElementById("charge").value,
+        date: document.getElementById("caseDate").value,
+        person: document.getElementById("personName").value,
+        involved: document.getElementById("involved").value,
+        location: document.getElementById("location").value,
+        description: document.getElementById("description").value
+      };
+      await addDoc(collection(db, "casefiles"), newCase);
+      form.reset();
+      form.style.display = "none";
+      loadCases();
+    };
 
     async function loadCases() {
-      const q = query(collection(db, "casefiles"));
-      const snapshot = await getDocs(q);
-      const cases = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      displayCases(cases);
-    }
-
-    function displayCases(cases) {
-      const search = searchBox.value.toLowerCase();
-      const selectedCat = categoryFilter.value;
       caseList.innerHTML = "";
+      const snapshot = await getDocs(collection(db, "casefiles"));
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const card = document.createElement("div");
+        card.className = "case-card";
+        card.innerHTML = `
+          <h3>${data.type === "officer" ? "Officer Report" : "Civilian Report"}</h3>
+          <p><strong>Case:</strong> ${data.caseNumber} — ${data.charge}</p>
+          <p><strong>Date:</strong> ${data.date}</p>
+          <p><strong>By:</strong> ${data.person}</p>
+          <p><strong>Involved/Suspects:</strong> ${data.involved}</p>
+          <p><strong>Location:</strong> ${data.location}</p>
+          <p>${data.description}</p>
+        `;
 
-      cases.forEach(data => {
-        const matchesSearch = data.title.toLowerCase().includes(search);
-        const matchesCategory = selectedCat === "all" || data.category === selectedCat;
+        if (isAdmin) {
+          const btns = document.createElement("div");
+          btns.className = "edit-delete";
 
-        if (matchesSearch && matchesCategory) {
-          const div = document.createElement("div");
-          div.className = "case-card";
-          div.innerHTML = `
-            <h3>${data.title}</h3>
-            <p class="meta">Category: ${data.category}</p>
-            <p>${data.description}</p>
-          `;
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "Delete";
+          delBtn.onclick = async () => {
+            await deleteDoc(doc(db, "casefiles", docSnap.id));
+            loadCases();
+          };
 
-          if (currentUser && currentUser.email === ADMIN_EMAIL) {
-            const controls = document.createElement("div");
-            controls.className = "admin-controls";
-            const delBtn = document.createElement("button");
-            delBtn.textContent = "Delete";
-            delBtn.onclick = async () => {
-              if (confirm("Delete this case file?")) {
-                await deleteDoc(doc(db, "casefiles", data.id));
-                loadCases();
-              }
-            };
-            controls.appendChild(delBtn);
-            div.appendChild(controls);
-          }
+          const editBtn = document.createElement("button");
+          editBtn.textContent = "Edit";
+          editBtn.onclick = async () => {
+            const updated = prompt("Edit Description:", data.description);
+            if (updated !== null) {
+              await updateDoc(doc(db, "casefiles", docSnap.id), { description: updated });
+              loadCases();
+            }
+          };
 
-          caseList.appendChild(div);
+          btns.appendChild(editBtn);
+          btns.appendChild(delBtn);
+          card.appendChild(btns);
         }
+
+        caseList.appendChild(card);
       });
     }
-
-    searchBox.addEventListener("input", () => loadCases());
-    categoryFilter.addEventListener("change", () => loadCases());
   </script>
 </body>
 </html>
