@@ -116,91 +116,94 @@
     &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, deleteDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+ <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, deleteDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
-      authDomain: "nvcpd-database.firebaseapp.com",
-      projectId: "nvcpd-database",
-      storageBucket: "nvcpd-database.appspot.com",
-      messagingSenderId: "111892634044",
-      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
-    };
+const firebaseConfig = { /* … your config … */ };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
-    const adminEmails = ["nvcpd.pr@gmail.com", "anotheradmin@example.com"];
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
+const adminEmails = ["nvcpd.pr@gmail.com","anotheradmin@example.com"];
 
-    const loginNav = document.getElementById("loginNav");
-    const adminForm = document.getElementById("adminForm");
-    const submitCase = document.getElementById("submitCase");
-    const caseList = document.getElementById("caseList");
+const loginNav = document.getElementById("loginNav");
+const adminForm = document.getElementById("adminForm");
+const submitCase = document.getElementById("submitCase");
+const caseList = document.getElementById("caseList");
 
-    let currentUser = null;
+let currentUser = null;
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        currentUser = user;
-        loginNav.textContent = "Logout";
-        loginNav.onclick = () => signOut(auth).then(() => location.reload());
+function showAdminUI(isAdmin) {
+  adminForm.style.display = isAdmin ? "block" : "none";
+}
 
-        if (adminEmails.includes(user.email)) {
-          adminForm.style.display = "block";
-        }
-      } else {
-        loginNav.textContent = "Login";
-        loginNav.onclick = () => signInWithPopup(auth, new GoogleAuthProvider());
-      }
-    });
-
-    submitCase.onclick = async () => {
-      const data = {
-        type: document.getElementById("caseType").value,
-        caseNumber: document.getElementById("caseNumber").value,
-        charge: document.getElementById("charge").value,
-        date: document.getElementById("date").value,
-        mainName: document.getElementById("mainName").value,
-        involved: document.getElementById("involved").value,
-        location: document.getElementById("location").value,
-        description: document.getElementById("description").value
-      };
-      await addDoc(collection(db, "casefiles"), data);
-      loadCases();
-    };
-
-    async function loadCases() {
-      caseList.innerHTML = "";
-      const snapshot = await getDocs(collection(db, "casefiles"));
-      snapshot.forEach(docSnap => {
-        const data = docSnap.data();
-        const div = document.createElement("div");
-        div.className = "case-card";
-        div.innerHTML = `
-          <h3>${data.caseNumber} - ${data.charge}</h3>
-          <p class="meta">${data.date} | ${data.location}</p>
-          <p><strong>${data.type === "officer" ? "Officer" : "Reporter"}:</strong> ${data.mainName}</p>
-          <p><strong>Involved:</strong> ${data.involved}</p>
-          <p>${data.description}</p>
-        `;
-        if (currentUser && adminEmails.includes(currentUser.email)) {
-          const delBtn = document.createElement("button");
-          delBtn.textContent = "Delete";
-          delBtn.className = "delete-button";
-          delBtn.onclick = async () => {
-            await deleteDoc(doc(db, "casefiles", docSnap.id));
-            loadCases();
-          };
-          div.appendChild(delBtn);
-        }
-        caseList.appendChild(div);
-      });
-    }
-
+onAuthStateChanged(auth, user => {
+  currentUser = user;
+  if (user) {
+    loginNav.textContent = "Logout";
+    loginNav.onclick = () => signOut(auth);
+    // Check if admin
+    const isAdmin = adminEmails.includes(user.email);
+    showAdminUI(isAdmin);
     loadCases();
+  } else {
+    loginNav.textContent = "Login";
+    loginNav.onclick = () => {
+      signInWithPopup(auth, new GoogleAuthProvider()).catch(error => {
+        alert("Login error: " + error.message);
+      });
+    };
+    showAdminUI(false);
+    loadCases();
+  }
+});
+
+submitCase.onclick = async () => {
+  if (!currentUser || !adminEmails.includes(currentUser.email)) return alert("Not authorized");
+  const data = {
+    type: document.getElementById("caseType").value,
+    caseNumber: document.getElementById("caseNumber").value.trim(),
+    charge: document.getElementById("charge").value.trim(),
+    date: document.getElementById("date").value.trim(),
+    mainName: document.getElementById("mainName").value.trim(),
+    involved: document.getElementById("involved").value.trim(),
+    location: document.getElementById("location").value.trim(),
+    description: document.getElementById("description").value.trim()
+  };
+  await addDoc(collection(db, "casefiles"), data);
+  loadCases();
+};
+
+async function loadCases() {
+  caseList.innerHTML = "";
+  const snapshot = await getDocs(collection(db, "casefiles"));
+  snapshot.forEach(docSnap => {
+    const data = docSnap.data();
+    const div = document.createElement("div");
+    div.className = "case-card";
+    div.innerHTML = `
+      <h3>${data.caseNumber || ""} - ${data.charge || ""}</h3>
+      <p class="meta">${data.date || ""} | ${data.location || ""}</p>
+      <p><strong>${data.type === "officer" ? "Officer" : "Reporter"}:</strong> ${data.mainName || ""}</p>
+      <p><strong>Involved:</strong> ${data.involved || ""}</p>
+      <p>${data.description || ""}</p>
+    `;
+    if (currentUser && adminEmails.includes(currentUser.email)) {
+      const delBtn = document.createElement("button");
+      delBtn.className = "delete-button";
+      delBtn.textContent = "Delete";
+      delBtn.onclick = async () => {
+        await deleteDoc(doc(db, "casefiles", docSnap.id));
+        loadCases();
+      };
+      div.appendChild(delBtn);
+    }
+    caseList.appendChild(div);
+  });
+}
+</script>
   </script>
 </body>
 </html>
