@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Case Files - Nowhereville PD</title>
   <style>
     body {
@@ -36,18 +36,13 @@
     nav a:hover {
       text-decoration: underline;
     }
-    #userStatus {
-      color: #fff;
-      margin-left: 10px;
-      font-weight: normal;
-    }
     .container {
       max-width: 1200px;
       margin: auto;
       background: white;
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     body.dark .container {
       background: #1c1c1c;
@@ -84,16 +79,6 @@
       color: #eee;
       border: 1px solid #555;
     }
-    .message-box {
-      background-color: #ffdddd;
-      color: #a33;
-      padding: 10px;
-      text-align: center;
-      border: 1px solid #a33;
-      margin-bottom: 20px;
-      display: none;
-      border-radius: 6px;
-    }
     .case-card {
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -115,39 +100,13 @@
     body.dark .case-card .meta {
       color: #aaa;
     }
-    #loginForm, #createCaseForm {
-      display: none;
-      margin: 20px 0;
-    }
-    #loginForm input, #createCaseForm input, #createCaseForm textarea, #createCaseForm select {
-      display: block;
-      margin: 10px 0;
-      padding: 10px;
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    #loginForm button, #createCaseForm button {
-      padding: 10px 15px;
-      font-size: 1rem;
-      background-color: #003366;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    #loginForm button:hover, #createCaseForm button:hover {
-      background-color: #005599;
-    }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo-placeholder.png" alt="NVCPD Logo" style="height: 80px;"><br>
     <h1>Nowhereville County Police Department</h1>
-    <p>Serving and Protecting the Citizens of Nowhereville County</p>
+    <p>Serving and Protecting the Citizens of Nowhereville</p>
   </header>
-
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About NVCPD</a>
@@ -155,48 +114,21 @@
     <a href="casefiles.html">Case Files</a>
     <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
-    <a href="javascript:void(0)" id="loginNav">Login</a>
-    <span id="userStatus"></span>
+    <a href="#" id="loginBtn">Login</a>
+    <a href="#" id="logoutBtn" style="display:none;">Logout</a>
   </nav>
 
   <div class="container">
     <h2>Case Files</h2>
-
     <div class="top-controls">
-      <div>
-        <input type="text" id="searchBox" placeholder="Search case title...">
-        <select id="categoryFilter">
-          <option value="all">All Categories</option>
-          <option value="Theft">Theft</option>
-          <option value="Assault">Assault</option>
-          <option value="Traffic">Traffic</option>
-        </select>
-      </div>
-      <button id="toggleDark">Toggle Dark Mode</button>
-    </div>
-
-    <div class="message-box" id="loginMessage">Please log in to manage case files.</div>
-
-    <div id="loginForm">
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Password">
-      <button id="submitLogin">Login</button>
-      <button id="logoutBtn" style="display:none;margin-top:10px;">Logout</button>
-    </div>
-
-    <div id="createCaseForm">
-      <select id="caseType">
-        <option value="officer">Officer Related</option>
-        <option value="reported">Reported by People</option>
+      <input type="text" id="searchBox" placeholder="Search by title...">
+      <select id="categoryFilter">
+        <option value="all">All Categories</option>
+        <option value="Theft">Theft</option>
+        <option value="Assault">Assault</option>
+        <option value="Traffic">Traffic</option>
       </select>
-      <input type="text" id="title" placeholder="Case Number / Title">
-      <input type="text" id="charge" placeholder="Charge / Reported Claim">
-      <input type="text" id="date" placeholder="Date (DD_MM_YYYY_HH:MM)">
-      <input type="text" id="person" placeholder="Officer / Reporting Person Name">
-      <input type="text" id="involved" placeholder="Involved / Suspect(s)">
-      <input type="text" id="location" placeholder="Location">
-      <textarea id="description" placeholder="Case Description"></textarea>
-      <button id="submitCase">Submit Case</button>
+      <button id="toggleDark">Toggle Dark Mode</button>
     </div>
 
     <div id="caseList"></div>
@@ -206,38 +138,92 @@
     &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 
-  <script>
-    const adminEmails = ["nvcpd.pr@gmail.com", "admin2@example.com"];
-    let currentUser = null;
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    document.getElementById('toggleDark').onclick = () => {
-      document.body.classList.toggle('dark');
+    const firebaseConfig = {
+      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
+      authDomain: "nvcpd-database.firebaseapp.com",
+      projectId: "nvcpd-database",
+      storageBucket: "nvcpd-database.appspot.com",
+      messagingSenderId: "111892634044",
+      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
     };
 
-    document.getElementById('loginNav').onclick = () => {
-      document.getElementById('loginForm').style.display = 'block';
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const searchBox = document.getElementById("searchBox");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const caseList = document.getElementById("caseList");
+    const toggleDark = document.getElementById("toggleDark");
+
+    let caseFiles = [];
+
+    function displayCases() {
+      const search = searchBox.value.toLowerCase();
+      const category = categoryFilter.value;
+      caseList.innerHTML = "";
+      caseFiles.forEach(file => {
+        if (
+          (file.title.toLowerCase().includes(search)) &&
+          (category === "all" || file.category === category)
+        ) {
+          const div = document.createElement("div");
+          div.className = "case-card";
+          div.innerHTML = `
+            <h3>${file.title}</h3>
+            <p class="meta">Category: ${file.category} | Date: ${file.date}</p>
+            <p>${file.description}</p>
+          `;
+          caseList.appendChild(div);
+        }
+      });
+    }
+
+    async function loadCases() {
+      const snapshot = await getDocs(collection(db, "casefiles"));
+      caseFiles = snapshot.docs.map(doc => doc.data());
+      displayCases();
+    }
+
+    toggleDark.onclick = () => {
+      document.body.classList.toggle("dark");
     };
 
-    document.getElementById('submitLogin').onclick = () => {
-      const email = document.getElementById('email').value;
-      const pass = document.getElementById('password').value;
-      if (email && pass) {
-        currentUser = email;
-        document.getElementById('loginMessage').style.display = 'none';
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('createCaseForm').style.display = adminEmails.includes(email) ? 'block' : 'none';
-        document.getElementById('userStatus').textContent = `Logged in as ${email}`;
-        document.getElementById('logoutBtn').style.display = 'inline-block';
-        alert('Login successful');
+    searchBox.oninput = displayCases;
+    categoryFilter.onchange = displayCases;
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline";
+      } else {
+        loginBtn.style.display = "inline";
+        logoutBtn.style.display = "none";
       }
+      loadCases();
+    });
+
+    logoutBtn.onclick = () => {
+      signOut(auth).then(() => {
+        alert("Logged out");
+        location.reload();
+      });
     };
 
-    document.getElementById('logoutBtn').onclick = () => {
-      currentUser = null;
-      document.getElementById('userStatus').textContent = '';
-      document.getElementById('createCaseForm').style.display = 'none';
-      document.getElementById('loginForm').style.display = 'block';
-      document.getElementById('logoutBtn').style.display = 'none';
+    loginBtn.onclick = () => {
+      const email = prompt("Enter your email:");
+      const password = prompt("Enter your password:");
+      if (!email || !password) return;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => alert("Login successful"))
+        .catch(err => alert("Login failed: " + err.message));
     };
   </script>
 </body>
