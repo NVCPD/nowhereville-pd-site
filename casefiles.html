@@ -10,6 +10,7 @@
       background-color: #f4f4f4;
       color: #000;
       margin: 0;
+      transition: background-color 0.3s, color 0.3s;
     }
     body.dark {
       background-color: #121212;
@@ -35,6 +36,11 @@
     nav a:hover {
       text-decoration: underline;
     }
+    #userStatus {
+      color: #fff;
+      margin-left: 10px;
+      font-weight: normal;
+    }
     .container {
       max-width: 1200px;
       margin: auto;
@@ -45,6 +51,7 @@
     }
     body.dark .container {
       background: #1c1c1c;
+      box-shadow: none;
     }
     h2 {
       text-align: center;
@@ -77,16 +84,15 @@
       color: #eee;
       border: 1px solid #555;
     }
-    .login-box {
-      max-width: 300px;
-      margin: 0 auto 20px;
-      padding: 20px;
-      background: #eee;
-      border-radius: 8px;
+    .message-box {
+      background-color: #ffdddd;
+      color: #a33;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #a33;
+      margin-bottom: 20px;
       display: none;
-    }
-    body.dark .login-box {
-      background: #2a2a2a;
+      border-radius: 6px;
     }
     .case-card {
       border: 1px solid #ccc;
@@ -109,10 +115,35 @@
     body.dark .case-card .meta {
       color: #aaa;
     }
+    #loginForm, #createCaseForm {
+      display: none;
+      margin: 20px 0;
+    }
+    #loginForm input, #createCaseForm input, #createCaseForm textarea, #createCaseForm select {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    #loginForm button, #createCaseForm button {
+      padding: 10px 15px;
+      font-size: 1rem;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #loginForm button:hover, #createCaseForm button:hover {
+      background-color: #005599;
+    }
   </style>
 </head>
 <body>
   <header>
+    <img src="logo-placeholder.png" alt="NVCPD Logo" style="height: 80px;"><br>
     <h1>Nowhereville County Police Department</h1>
     <p>Serving and Protecting the Citizens of Nowhereville County</p>
   </header>
@@ -124,19 +155,12 @@
     <a href="casefiles.html">Case Files</a>
     <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
-    <a href="#" id="toggleLogin">Login</a>
-    <button id="toggleDark">🌙</button>
+    <a href="javascript:void(0)" id="loginNav">Login</a>
+    <span id="userStatus"></span>
   </nav>
 
   <div class="container">
     <h2>Case Files</h2>
-
-    <div class="login-box" id="loginBox">
-      <h3>Login</h3>
-      <input type="email" id="email" placeholder="Email"><br><br>
-      <input type="password" id="password" placeholder="Password"><br><br>
-      <button id="loginButton">Login</button>
-    </div>
 
     <div class="top-controls">
       <div>
@@ -148,94 +172,73 @@
           <option value="Traffic">Traffic</option>
         </select>
       </div>
+      <button id="toggleDark">Toggle Dark Mode</button>
     </div>
 
-    <div id="caseList">
-      <!-- Case cards go here -->
+    <div class="message-box" id="loginMessage">Please log in to manage case files.</div>
+
+    <div id="loginForm">
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <button id="submitLogin">Login</button>
+      <button id="logoutBtn" style="display:none;margin-top:10px;">Logout</button>
     </div>
+
+    <div id="createCaseForm">
+      <select id="caseType">
+        <option value="officer">Officer Related</option>
+        <option value="reported">Reported by People</option>
+      </select>
+      <input type="text" id="title" placeholder="Case Number / Title">
+      <input type="text" id="charge" placeholder="Charge / Reported Claim">
+      <input type="text" id="date" placeholder="Date (DD_MM_YYYY_HH:MM)">
+      <input type="text" id="person" placeholder="Officer / Reporting Person Name">
+      <input type="text" id="involved" placeholder="Involved / Suspect(s)">
+      <input type="text" id="location" placeholder="Location">
+      <textarea id="description" placeholder="Case Description"></textarea>
+      <button id="submitCase">Submit Case</button>
+    </div>
+
+    <div id="caseList"></div>
   </div>
 
   <footer>
     &copy; 2025 Nowhereville County Police Department. All rights reserved.
   </footer>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  <script>
+    const adminEmails = ["nvcpd.pr@gmail.com", "admin2@example.com"];
+    let currentUser = null;
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyC_oo-GaL1K6bdTSaMByXFW46PC4JkIvYk",
-      authDomain: "nvcpd-database.firebaseapp.com",
-      projectId: "nvcpd-database",
-      storageBucket: "nvcpd-database.appspot.com",
-      messagingSenderId: "111892634044",
-      appId: "1:111892634044:web:c2e811597a59a776a5b3b9"
+    document.getElementById('toggleDark').onclick = () => {
+      document.body.classList.toggle('dark');
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
+    document.getElementById('loginNav').onclick = () => {
+      document.getElementById('loginForm').style.display = 'block';
+    };
 
-    const toggleDark = document.getElementById("toggleDark");
-    toggleDark.onclick = () => document.body.classList.toggle("dark");
-
-    const loginBox = document.getElementById("loginBox");
-    const toggleLogin = document.getElementById("toggleLogin");
-    toggleLogin.onclick = () => loginBox.style.display = loginBox.style.display === "none" ? "block" : "none";
-
-    document.getElementById("loginButton").onclick = async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("Login successful");
-        loginBox.style.display = "none";
-        loadCases();
-      } catch (e) {
-        alert("Login failed: " + e.message);
+    document.getElementById('submitLogin').onclick = () => {
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+      if (email && pass) {
+        currentUser = email;
+        document.getElementById('loginMessage').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('createCaseForm').style.display = adminEmails.includes(email) ? 'block' : 'none';
+        document.getElementById('userStatus').textContent = `Logged in as ${email}`;
+        document.getElementById('logoutBtn').style.display = 'inline-block';
+        alert('Login successful');
       }
     };
 
-    const caseList = document.getElementById("caseList");
-    const searchBox = document.getElementById("searchBox");
-    const categoryFilter = document.getElementById("categoryFilter");
-
-    function displayCases(cases) {
-      const search = searchBox.value.toLowerCase();
-      const category = categoryFilter.value;
-      caseList.innerHTML = "";
-
-      cases.forEach(data => {
-        const matchesSearch = data.title.toLowerCase().includes(search);
-        const matchesCategory = category === "all" || data.category === category;
-        if (matchesSearch && matchesCategory) {
-          const div = document.createElement("div");
-          div.className = "case-card";
-          div.innerHTML = `
-            <h3>${data.title}</h3>
-            <p class="meta">Category: ${data.category} | Date: ${data.date}</p>
-            <p>${data.description}</p>
-          `;
-          caseList.appendChild(div);
-        }
-      });
-    }
-
-    async function loadCases() {
-      const q = query(collection(db, "casefiles"));
-      const snapshot = await getDocs(q);
-      const data = [];
-      snapshot.forEach(doc => data.push(doc.data()));
-      displayCases(data);
-    }
-
-    searchBox.addEventListener("input", () => loadCases());
-    categoryFilter.addEventListener("change", () => loadCases());
-    onAuthStateChanged(auth, user => {
-      if (user) loadCases();
-    });
-    loadCases();
+    document.getElementById('logoutBtn').onclick = () => {
+      currentUser = null;
+      document.getElementById('userStatus').textContent = '';
+      document.getElementById('createCaseForm').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('logoutBtn').style.display = 'none';
+    };
   </script>
 </body>
 </html>
