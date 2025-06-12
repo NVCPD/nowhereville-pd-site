@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Case Files - Nowhereville PD</title>
   <style>
     body {
@@ -56,7 +56,7 @@
     body.dark h2 {
       color: #87baff;
     }
-    .top-controls, .admin-controls {
+    .top-controls {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
@@ -66,10 +66,7 @@
     }
     .top-controls input,
     .top-controls select,
-    .top-controls button,
-    .admin-controls input,
-    .admin-controls select,
-    .admin-controls textarea {
+    .top-controls button {
       padding: 8px 12px;
       font-size: 1rem;
       border-radius: 6px;
@@ -77,23 +74,41 @@
     }
     body.dark .top-controls input,
     body.dark .top-controls select,
-    body.dark .top-controls button,
-    body.dark .admin-controls input,
-    body.dark .admin-controls select,
-    body.dark .admin-controls textarea {
+    body.dark .top-controls button {
       background: #2a2a2a;
       color: #eee;
       border: 1px solid #555;
     }
-    .message-box {
-      background-color: #ffdddd;
-      color: #a33;
-      padding: 10px;
+    .login-form {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+    }
+    body.dark .login-form {
+      background: #1f1f1f;
+      border-color: #555;
+    }
+    .login-form h3 {
       text-align: center;
-      border: 1px solid #a33;
-      margin-bottom: 20px;
-      display: none;
+    }
+    .login-form input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
       border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .login-form button {
+      width: 100%;
+      padding: 10px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
     }
     .case-card {
       border: 1px solid #ccc;
@@ -106,38 +121,12 @@
       border-color: #444;
       background: #2a2a2a;
     }
-    .case-card h3 {
-      margin-top: 0;
-    }
-    .case-card .meta {
-      font-size: 0.9rem;
-      color: #555;
-    }
-    body.dark .case-card .meta {
-      color: #aaa;
-    }
-    #loginForm {
-      display: none;
-      max-width: 400px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #e8e8e8;
-      border-radius: 8px;
-    }
-    body.dark #loginForm {
-      background: #1a1a1a;
-    }
-    #loginForm input {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
-    }
   </style>
 </head>
 <body>
   <header>
     <h1>Nowhereville County Police Department</h1>
-    <p>Serving and Protecting the Citizens of Nowhereville County</p>
+    <p>Serving and Protecting the Citizens of Nowhereville</p>
   </header>
 
   <nav>
@@ -147,42 +136,24 @@
     <a href="casefiles.html">Case Files</a>
     <a href="10codes.html">10-Codes</a>
     <a href="careers.html">Careers</a>
-    <a href="#" id="loginNav">Login</a>
   </nav>
 
   <div class="container">
     <h2>Case Files</h2>
-    <div id="loginForm">
-      <h3>Login</h3>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <button id="loginBtn">Submit</button>
+
+    <div class="login-form" id="loginBox">
+      <h3>Admin Login</h3>
+      <input type="email" id="emailInput" placeholder="Email" />
+      <input type="password" id="passwordInput" placeholder="Password" />
+      <button id="loginButton">Login</button>
+      <p id="loginStatus" style="text-align:center; margin-top:10px;"></p>
     </div>
 
-    <div class="top-controls">
-      <div>
-        <input type="text" id="searchBox" placeholder="Search case title...">
-        <select id="categoryFilter">
-          <option value="all">All Categories</option>
-          <option value="Theft">Theft</option>
-          <option value="Assault">Assault</option>
-          <option value="Traffic">Traffic</option>
-        </select>
-      </div>
-      <button id="toggleDark">Toggle Dark Mode</button>
-    </div>
-
-    <div class="message-box" id="loginMessage">Please log in to manage case files.</div>
-    <div class="admin-controls" id="adminControls" style="display: none;">
-      <!-- CASE CREATION FORM GOES HERE IN NEXT STEP -->
-    </div>
     <div id="caseList"></div>
   </div>
 
   <footer>
-    &copy; 2025 Nowhereville County Police Department. All rights reserved.
+    &copy; 2025 Nowhereville County Police Department. All Rights Reserved.
   </footer>
-
-  <!-- Firebase & Script will be added/updated next with admin GUI logic -->
 </body>
 </html>
